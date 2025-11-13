@@ -1,0 +1,28 @@
+{
+  "cli": {
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "autoIncrement": true,
+      "env": {
+        "EXPO_ROUTER_APP_ROOT": ".",
+        "EXPO_ROUTER_IMPORT_MODE": "sync"
+      }
+    },
+    "preview": {
+      "autoIncrement": true,
+      "env": {
+        "EXPO_ROUTER_APP_ROOT": ".",
+        "EXPO_ROUTER_IMPORT_MODE": "sync"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "env": {
+        "EXPO_ROUTER_APP_ROOT": ".",
+        "EXPO_ROUTER_IMPORT_MODE": "sync"
+      }
+    }
+  }
+}
