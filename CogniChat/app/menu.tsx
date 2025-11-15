@@ -47,7 +47,7 @@ export default function MainMenu() {
             <Text style={styles.bullet}>• Custom buttons and phrases</Text>
             <Text style={styles.bullet}>• Text-to-speech functionality</Text>
           </View>
-          <TouchableOpacity style={styles.button} onPress={() => router.push('/aac')}>
+          <TouchableOpacity style={styles.button} onPress={() => router.push('/aac-board-index')}>
             <Text style={styles.buttonText}>Open Communication Board</Text>
           </TouchableOpacity>
         </View>
