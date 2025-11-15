@@ -1,0 +1,8 @@
+import { Redirect } from 'expo-router';
+
+// This is NOT the correct way to do this. We have to put the AuthProvider
+// around the entire app in _layout.tsx, but for now this works to tweak visuals.
+// I haven't been able to get supabase auth to work properly yet.
+export default function Index() {
+  return <Redirect href="/login" />;
+}
