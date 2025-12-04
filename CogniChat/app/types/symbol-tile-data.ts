@@ -17,7 +17,7 @@ export interface SymbolTileData {
   /**
    * The unique id of this symbol tile.
    */
-  id: string;
+  key: string;
 
   /**
    * The text label of this symbol tile.

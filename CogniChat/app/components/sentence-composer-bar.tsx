@@ -1,6 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import React, { JSX } from "react";
-import { FlatList, Pressable, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SymbolTileData } from "../types/symbol-tile-data";
 import SymbolTile from "./symbol-tile";
 
@@ -39,13 +39,13 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.listContainer}>
+      <ScrollView style={styles.listContainer} horizontal={true}>
         {sentence.map((tile) => (
           <View style={[styles.symbol]}>
             <SymbolTile symbolTileData={tile} />
           </View>
         ))}
-      </View>
+      </ScrollView>
       <Pressable style={styles.popWordButton} onPress={handlePopSymbol}>
         <FontAwesome name="arrow-left" size={40} color="black" />
       </Pressable>

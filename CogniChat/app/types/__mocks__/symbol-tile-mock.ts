@@ -3,7 +3,7 @@ import uuid from "react-native-uuid";
 
 export function createMockSymbolTile(): SymbolTileData {
   return {
-    id: uuid.v4(),
+    key: uuid.v4(),
     textLabelText: "Tile",
     showTextLabel: true,
     imageLabelSource: require("../../assets/300x300.png"),
