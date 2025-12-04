@@ -15,6 +15,11 @@ import { SymbolTileCategoryKey } from "./symbol-tile-categories";
  */
 export interface SymbolTileData {
   /**
+   * The unique id of this symbol tile.
+   */
+  id: string;
+
+  /**
    * The text label of this symbol tile.
    * @example "Hello"
    */

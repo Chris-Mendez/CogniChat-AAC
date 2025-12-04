@@ -29,12 +29,6 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
   sentence,
   updateSentence,
 }: SentenceComposerBarProps): JSX.Element => {
-  const renderSymbol = ({ item }: any) => (
-    <View style={[styles.symbol]}>
-      <SymbolTile symbolTileData={item} />
-    </View>
-  );
-
   const handlePopSymbol = () => {
     updateSentence((p) => p.slice(0, -1));
   };
@@ -46,12 +40,11 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.listContainer}>
-        <FlatList
-          horizontal={true}
-          data={sentence}
-          renderItem={renderSymbol}
-          contentContainerStyle={styles.listContent}
-        ></FlatList>
+        {sentence.map((tile) => (
+          <View style={[styles.symbol]}>
+            <SymbolTile symbolTileData={tile} />
+          </View>
+        ))}
       </View>
       <Pressable style={styles.popWordButton} onPress={handlePopSymbol}>
         <FontAwesome name="arrow-left" size={40} color="black" />
