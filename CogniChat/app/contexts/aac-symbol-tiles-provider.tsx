@@ -2,6 +2,10 @@ import React, { createContext, useContext, useState } from "react";
 import { SymbolTileData } from "../types/symbol-tile-data";
 import { createMockSymbolTiles } from "../types/__mocks__/symbol-tile-mock";
 
+/**
+ * Represents the properties of a user's symbol tiles
+ * for the AAC portion of Cognichat.
+ */
 type AACSymbolTilesContextType = {
   tabTiles: SymbolTileData[];
   setTabTiles: (n: SymbolTileData[]) => void;

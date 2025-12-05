@@ -1,12 +1,106 @@
 import React, { createContext, useContext, useState } from "react";
-import {
-  AACPreferences,
-  defaultAACPreferences,
-} from "../types/aac-preferences";
 
+/**
+ * Represents the properties of a user's preferences
+ * for the AAC portion of Cognichat.
+ */
 type AACPrefsContextType = {
-  preferences: AACPreferences;
-  updatePreferences: React.Dispatch<React.SetStateAction<AACPreferences>>;
+  /**
+   * The default font size of the buttons, for new buttons
+   * and buttons which do not override the font size.
+   * @example 12
+   */
+  buttonDefaultFontSize: number;
+  setButtonDefaultFontSize: React.Dispatch<React.SetStateAction<number>>;
+
+  /**
+   * The default font family of the buttons, for new buttons
+   * and buttons which do not override the font family.
+   * @example "arial"
+   */
+  buttonDefaultFontFamily: string;
+  setButtonDefaultFontFamily: React.Dispatch<React.SetStateAction<string>>;
+
+  /**
+   * Machine learning feature:
+   * Should sentence learning and prediction be enabled?
+   * @example true
+   */
+  enableSentencePrediction: boolean;
+  setEnableSentencePrediction: React.Dispatch<React.SetStateAction<boolean>>;
+
+  /**
+   * Machine learning feature:
+   * Should button grid learning and adaption be enabled?
+   * @example true
+   */
+  enableButtonGridAdaption: boolean;
+  setEnableButtonGridAdaption: React.Dispatch<React.SetStateAction<boolean>>;
+
+  /**
+   * Voice to use for text-to-speech.
+   * @example "system"
+   */
+  ttsVoice: string;
+  setTTSVoice: React.Dispatch<React.SetStateAction<string>>;
+
+  /**
+   * Voice volume of the text-to-speech.
+   * @example 100
+   */
+  ttsVolume: number;
+  setTTSVolume: React.Dispatch<React.SetStateAction<number>>;
+
+  /**
+   * Should buttons show their image labels, if they
+   * have them?
+   * @example true
+   */
+  showButtonImageLabels: boolean;
+  setShowButtonImageLabels: React.Dispatch<React.SetStateAction<boolean>>;
+
+  /**
+   * Should buttons show their text labels, if they
+   * have them?
+   * @example true
+   */
+  showButtonTextLabels: boolean;
+  setShowButtonTextLabels: React.Dispatch<React.SetStateAction<boolean>>;
+
+  /**
+   * Should buttons be colored to their categories?
+   * @example true
+   */
+  showButtonCategoryColors: boolean;
+  setShowButtonCategoryColors: React.Dispatch<React.SetStateAction<boolean>>;
+
+  /**
+   * Color for the background of buttons in the "other" category.
+   * @example "#fff"
+   */
+  buttonCategoryOtherColor: string;
+  setButtonCategoryOtherColor: React.Dispatch<React.SetStateAction<string>>;
+
+  /**
+   * Color for the background of buttons in the "verb" category.
+   * @example "#fff"
+   */
+  buttonCategoryVerbColor: string;
+  setButtonCategoryVerbColor: React.Dispatch<React.SetStateAction<string>>;
+
+  /**
+   * Color for the background of buttons in the "noun" category.
+   * @example "#fff"
+   */
+  buttonCategoryNounColor: string;
+  setButtonCategoryNounColor: React.Dispatch<React.SetStateAction<string>>;
+
+  /**
+   * Color for the background of buttons in the "adjective" category.
+   * @example "#fff"
+   */
+  buttonCategoryAdjectiveColor: string;
+  setButtonCategoryAdjectiveColor: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const AACPrefsContext = createContext<AACPrefsContextType | undefined>(
@@ -16,14 +110,62 @@ const AACPrefsContext = createContext<AACPrefsContextType | undefined>(
 export const AACPreferencesProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [preferences, setPreferences] = useState<AACPreferences>(
-    defaultAACPreferences
-  );
+  const [buttonDefaultFontSize, setButtonDefaultFontSize] =
+    useState<number>(14);
+  const [buttonDefaultFontFamily, setButtonDefaultFontFamily] =
+    useState<string>("system-ui");
+  const [enableSentencePrediction, setEnableSentencePrediction] =
+    useState<boolean>(true);
+  const [enableButtonGridAdaption, setEnableButtonGridAdaption] =
+    useState<boolean>(true);
+  const [ttsVoice, setTTSVoice] = useState<string>("default");
+  const [ttsVolume, setTTSVolume] = useState<number>(50);
+  const [showButtonCategoryColors, setShowButtonCategoryColors] =
+    useState<boolean>(true);
+  const [showButtonImageLabels, setShowButtonImageLabels] =
+    useState<boolean>(true);
+  const [showButtonTextLabels, setShowButtonTextLabels] =
+    useState<boolean>(true);
+  const [buttonCategoryOtherColor, setButtonCategoryOtherColor] =
+    useState<string>("#fff");
+  const [buttonCategoryNounColor, setButtonCategoryNounColor] =
+    useState<string>("#abe");
+  const [buttonCategoryVerbColor, setButtonCategoryVerbColor] =
+    useState<string>("#f80");
+  const [buttonCategoryAdjectiveColor, setButtonCategoryAdjectiveColor] =
+    useState<string>("#0f4");
+
+  const values = {
+    buttonDefaultFontSize,
+    setButtonDefaultFontSize,
+    buttonDefaultFontFamily,
+    setButtonDefaultFontFamily,
+    enableSentencePrediction,
+    setEnableSentencePrediction,
+    enableButtonGridAdaption,
+    setEnableButtonGridAdaption,
+    ttsVoice,
+    setTTSVoice,
+    ttsVolume,
+    setTTSVolume,
+    showButtonCategoryColors,
+    setShowButtonCategoryColors,
+    showButtonImageLabels,
+    setShowButtonImageLabels,
+    showButtonTextLabels,
+    setShowButtonTextLabels,
+    buttonCategoryOtherColor,
+    setButtonCategoryOtherColor,
+    buttonCategoryNounColor,
+    setButtonCategoryNounColor,
+    buttonCategoryVerbColor,
+    setButtonCategoryVerbColor,
+    buttonCategoryAdjectiveColor,
+    setButtonCategoryAdjectiveColor,
+  };
 
   return (
-    <AACPrefsContext.Provider
-      value={{ preferences, updatePreferences: setPreferences }}
-    >
+    <AACPrefsContext.Provider value={values}>
       {children}
     </AACPrefsContext.Provider>
   );
