@@ -15,7 +15,7 @@ export const MainPageSentenceComposerRow = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     backgroundColor: "#7E2F8D",
     height: 120,
     padding: 10,

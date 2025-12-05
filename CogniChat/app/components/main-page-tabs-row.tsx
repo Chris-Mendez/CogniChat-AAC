@@ -7,7 +7,7 @@ export const MainPageTabsRow = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.3,
+    flex: 1,
     flexDirection: "row",
     backgroundColor: "#AF8EC9",
     paddingVertical: 5,
