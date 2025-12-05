@@ -41,7 +41,7 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
     <View style={styles.container}>
       <ScrollView style={styles.listContainer} horizontal={true}>
         {sentence.map((tile) => (
-          <View style={[styles.symbol]}>
+          <View style={[styles.symbol]} key={tile.key}>
             <SymbolTile symbolTileData={tile} />
           </View>
         ))}

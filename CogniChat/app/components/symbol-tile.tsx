@@ -8,7 +8,7 @@ import {
   GestureResponderEvent,
 } from "react-native";
 import { SymbolTileData } from "../types/symbol-tile-data";
-import { symbolTileCategories } from "../types/symbol-tile-categories";
+import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
 
 /**
  * @interface SymbolTileProps
@@ -28,6 +28,8 @@ interface SymbolTileProps {
 export const SymbolTile: React.FC<SymbolTileProps> = ({
   symbolTileData,
 }: SymbolTileProps): JSX.Element => {
+  const { buttonCategoryColors } = useAACPreferencesStore();
+
   // First, prepare the visuals for the image label and text label,
   // including the cases when there's both or neither.
   const imageLabelComponent = (
@@ -78,7 +80,7 @@ export const SymbolTile: React.FC<SymbolTileProps> = ({
       style={[
         styles.container,
         {
-          backgroundColor: symbolTileCategories[symbolTileData.category].color,
+          backgroundColor: buttonCategoryColors.get(symbolTileData.category),
         },
       ]}
     >

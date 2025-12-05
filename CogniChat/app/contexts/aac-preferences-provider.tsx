@@ -75,32 +75,12 @@ type AACPrefsContextType = {
   setShowButtonCategoryColors: React.Dispatch<React.SetStateAction<boolean>>;
 
   /**
-   * Color for the background of buttons in the "other" category.
-   * @example "#fff"
+   * Colors for the backgrounds of buttons based on categories.
    */
-  buttonCategoryOtherColor: string;
-  setButtonCategoryOtherColor: React.Dispatch<React.SetStateAction<string>>;
-
-  /**
-   * Color for the background of buttons in the "verb" category.
-   * @example "#fff"
-   */
-  buttonCategoryVerbColor: string;
-  setButtonCategoryVerbColor: React.Dispatch<React.SetStateAction<string>>;
-
-  /**
-   * Color for the background of buttons in the "noun" category.
-   * @example "#fff"
-   */
-  buttonCategoryNounColor: string;
-  setButtonCategoryNounColor: React.Dispatch<React.SetStateAction<string>>;
-
-  /**
-   * Color for the background of buttons in the "adjective" category.
-   * @example "#fff"
-   */
-  buttonCategoryAdjectiveColor: string;
-  setButtonCategoryAdjectiveColor: React.Dispatch<React.SetStateAction<string>>;
+  buttonCategoryColors: Map<string, string>;
+  setButtonCategoryColors: React.Dispatch<
+    React.SetStateAction<Map<string, string>>
+  >;
 };
 
 const AACPrefsContext = createContext<AACPrefsContextType | undefined>(
@@ -126,14 +106,16 @@ export const AACPreferencesProvider: React.FC<{
     useState<boolean>(true);
   const [showButtonTextLabels, setShowButtonTextLabels] =
     useState<boolean>(true);
-  const [buttonCategoryOtherColor, setButtonCategoryOtherColor] =
-    useState<string>("#fff");
-  const [buttonCategoryNounColor, setButtonCategoryNounColor] =
-    useState<string>("#abe");
-  const [buttonCategoryVerbColor, setButtonCategoryVerbColor] =
-    useState<string>("#f80");
-  const [buttonCategoryAdjectiveColor, setButtonCategoryAdjectiveColor] =
-    useState<string>("#0f4");
+  const [buttonCategoryColors, setButtonCategoryColors] = useState<
+    Map<string, string>
+  >(
+    new Map<string, string>([
+      ["other", "ffffff"],
+      ["noun", "ff6666"],
+      ["adjective", "66cc66"],
+      ["verb", "6699ff"],
+    ])
+  );
 
   const values = {
     buttonDefaultFontSize,
@@ -154,14 +136,8 @@ export const AACPreferencesProvider: React.FC<{
     setShowButtonImageLabels,
     showButtonTextLabels,
     setShowButtonTextLabels,
-    buttonCategoryOtherColor,
-    setButtonCategoryOtherColor,
-    buttonCategoryNounColor,
-    setButtonCategoryNounColor,
-    buttonCategoryVerbColor,
-    setButtonCategoryVerbColor,
-    buttonCategoryAdjectiveColor,
-    setButtonCategoryAdjectiveColor,
+    buttonCategoryColors,
+    setButtonCategoryColors,
   };
 
   return (

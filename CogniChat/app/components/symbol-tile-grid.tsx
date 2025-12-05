@@ -40,6 +40,7 @@ const SymbolTileGrid: React.FC<SymbolTileGridProps> = ({
     >
       {tiles.map((tile) => (
         <Pressable
+          key={tile.key}
           onPress={() => {
             handleAddSymbol(tile);
           }}

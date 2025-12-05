@@ -1,4 +1,3 @@
-import Slider from "@react-native-community/slider";
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -7,12 +6,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useUserPreferences } from "../contexts/__mocks__/legacy-user-preferences";
-import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
 import { useAACSymbolTilesStore } from "../contexts/aac-symbol-tiles-provider";
-import { SymbolTileData } from "../types/symbol-tile-data";
 import { addButton } from "@/api/buttons";
-const Seperator = () => <View style={style.separator} />;
+import Seperator from "./seperator";
+import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
 
 const DEFAULT_COLORS = [
   "#4a90e2",
@@ -22,41 +19,9 @@ const DEFAULT_COLORS = [
   "#9c2b8dff",
 ];
 
-const newsetting = () => {
-  const [text, setText] = useState("");
-
-  const { preferences, setPreferences } = useUserPreferences();
-  const setGridSize = function (n: number) {
-    setPreferences((p) => ({ ...p, gridSize: n }));
-  };
-
-  const setButtonColor = function (color: string) {
-    setPreferences((p) => ({ ...p, buttonColor: color }));
-  };
-
+const SettingsPage = () => {
+  const { buttonCategoryColors } = useAACPreferencesStore();
   const { tabTiles, setTabTiles } = useAACSymbolTilesStore();
-  /*
-  // Adding the new tile
-  const handleAddSymbol = () => {
-    if (text.trim() === "") return;
-
-    const newTile: SymbolTileData = {
-      // id: Math.random().toString(36).substring(7),
-      textLabelText: text.trim(),
-      category: "other",
-      showTextLabel: true,
-      imageLabelSource: undefined,
-      showImageLabel: false,
-      textLabelFontSize: 16,
-      textLabelFontFamily: "System",
-      vocalizationText: text.trim(),
-    };
-
-    setTabTiles([...tabTiles, newTile]);
-
-    setText("");
-  };
-  */
 
   const [vocalizationText, setVocalizationText] = useState("");
   const [tabName, setTabName] = useState("");
@@ -92,54 +57,8 @@ const newsetting = () => {
     }
   };
 
-  let gridSizeHintText = "";
-  if (preferences.gridSize < 75) {
-    gridSizeHintText = "Small";
-  } else if (preferences.gridSize < 115) {
-    gridSizeHintText = "Medium";
-  } else {
-    gridSizeHintText = "Large";
-  }
-
   return (
     <View style={style.container}>
-      <View>
-        <Text>What size do you want the boxes?</Text>
-
-        <Text>{gridSizeHintText}</Text>
-
-        <Slider
-          style={{ width: 300, height: 40 }}
-          minimumValue={25}
-          maximumValue={170}
-          minimumTrackTintColor="#71d38bff"
-          maximumTrackTintColor="#000000"
-          thumbTintColor="#32a852"
-          value={preferences.gridSize}
-          onValueChange={setGridSize}
-          step={1}
-        />
-      </View>
-
-      <Seperator />
-      <View style={{ alignItems: "center" }}>
-        <Text>Choose a color for the buttons:</Text>
-        <View style={style.colorPalette}>
-          {DEFAULT_COLORS.map((color) => (
-            <TouchableOpacity
-              key={color}
-              style={[
-                style.colorOption,
-                { backgroundColor: color },
-                // Add a visual indicator for the currently selected color
-                preferences.buttonColor === color && style.selectedColor,
-              ]}
-              onPress={() => setButtonColor(color)}
-            />
-          ))}
-        </View>
-      </View>
-
       <Seperator />
       <View style={style.formBox}>
         <Text>Vocalization Text *</Text>
@@ -171,26 +90,18 @@ const newsetting = () => {
         <TouchableOpacity
           style={[
             style.addButton,
-            { backgroundColor: preferences.buttonColor },
+            { backgroundColor: buttonCategoryColors.get(partsOfSpeech) },
           ]}
           onPress={handleAddSymbol}
-          //disabled={text.trim() === ""}
-          disabled={!vocalizationText.trim() || !tabName.trim() || !partsOfSpeech.trim()}
+          disabled={
+            !vocalizationText.trim() || !tabName.trim() || !partsOfSpeech.trim()
+          }
         >
           <Text style={style.addButtonText}>Add Symbol Tile</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-  /*
-  <Text>What word or phrase to add</Text>
-        <TextInput
-          onChangeText={(newWord) => setText(newWord)}
-          value={text}
-          placeholder="Enter the button to add"
-          style={{ borderWidth: 1, padding: 5, marginTop: 5, width: 300 }}
-        />
-  */
 };
 
 const style = StyleSheet.create({
@@ -199,11 +110,6 @@ const style = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#acaefaff",
-  },
-  separator: {
-    marginVertical: 8,
-    borderBottomColor: "#737373",
-    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   colorPalette: {
     flexDirection: "row",
@@ -228,25 +134,25 @@ const style = StyleSheet.create({
     alignItems: "center",
   },
   addButtonText: {
-    color: "white",
+    color: "black",
     fontWeight: "bold",
   },
   formBox: {
-  borderWidth: 1,
-  borderColor: "#ccc",
-  padding: 15,
-  borderRadius: 10,
-  marginVertical: 10,
-  width: 300,
-  backgroundColor: "white",
-},
-input: {
-  borderWidth: 1,
-  borderColor: "#aaa",
-  padding: 5,
-  marginBottom: 10,
-  borderRadius: 5,
-},
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 15,
+    borderRadius: 10,
+    marginVertical: 10,
+    width: 300,
+    backgroundColor: "white",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#aaa",
+    padding: 5,
+    marginBottom: 10,
+    borderRadius: 5,
+  },
 });
 
-export default newsetting;
+export default SettingsPage;
