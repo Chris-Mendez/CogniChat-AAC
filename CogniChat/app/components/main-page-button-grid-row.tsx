@@ -1,28 +1,19 @@
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { useAACSymbolTilesStore } from "../contexts/aac-symbol-tiles-provider";
-import SymbolTileGrid from "./symbol-tile-grid";
+import EditableDNDGridMock from "./__mocks__/editable-dnd-grid-mock";
 
 export const MainPageButtonGridRow = () => {
   const { tabTiles, setSentence } = useAACSymbolTilesStore();
 
-  return (
-    <ScrollView style={styles.container}>
-      <SymbolTileGrid
-        tiles={tabTiles}
-        symbolSize={300}
-        updateSentence={setSentence}
-      />
-    </ScrollView>
-  );
+  return <EditableDNDGridMock />;
 };
 
 const styles = StyleSheet.create({
-  container: { 
+  container: {
     flex: 1,
-    backgroundColor: "white",
     padding: 10,
-   },
+  },
 });
 
 export default MainPageButtonGridRow;

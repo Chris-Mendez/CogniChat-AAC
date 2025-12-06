@@ -1,5 +1,6 @@
 import { ImageSourcePropType } from "react-native";
-import { SymbolTileCategoryKey } from "./symbol-tile-categories";
+import { HasKey } from "@/app/types/has-key";
+import { SymbolTileCategoryKey } from "@/app/types/symbol-tile-categories";
 
 /**
  * Represents the properties of a symbol tile.
@@ -13,7 +14,7 @@ import { SymbolTileCategoryKey } from "./symbol-tile-categories";
  * tiles are used in both the symbol tile grid and
  * sentence bar composor.
  */
-export interface SymbolTileData {
+export interface SymbolTileData extends HasKey {
   /**
    * The unique id of this symbol tile.
    */
