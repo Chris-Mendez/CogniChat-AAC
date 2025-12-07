@@ -1,158 +1,223 @@
 import React, { useState } from "react";
 import {
-  StyleSheet,
+  View,
   Text,
+  StyleSheet,
+  ScrollView,
+  Switch,
   TextInput,
   TouchableOpacity,
-  View,
 } from "react-native";
-import { useAACSymbolTilesStore } from "../contexts/aac-symbol-tiles-provider";
-import { addButton } from "@/api/buttons";
-import Seperator from "./seperator";
 import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
+import { Picker } from "@react-native-picker/picker";
+import { SymbolTileCategoryKey } from "../types/symbol-tile-categories";
+import { FontAwesome } from "@expo/vector-icons";
 
-const DEFAULT_COLORS = [
-  "#4a90e2",
-  "#32a852",
-  "#e29d4a",
-  "#d34a4a",
-  "#9c2b8dff",
-];
+interface AACUserSettingsPageProps {}
 
-const SettingsPage = () => {
-  const { buttonCategoryColors } = useAACPreferencesStore();
-  const { tabTiles, setTabTiles } = useAACSymbolTilesStore();
+const TTS_VOICES = ["System Male", "System Female"];
 
-  const [vocalizationText, setVocalizationText] = useState("");
-  const [tabName, setTabName] = useState("");
-  const [partsOfSpeech, setPartsOfSpeech] = useState("");
-  const [isDeleted] = useState(false);
+const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
+  const {
+    buttonDefaultFontSize,
+    setButtonDefaultFontSize,
+    showButtonImageLabels,
+    setShowButtonImageLabels,
+    showButtonTextLabels,
+    setShowButtonTextLabels,
+    ttsVoice,
+    setTTSVoice,
+    showButtonCategoryColors,
+    setShowButtonCategoryColors,
+  } = useAACPreferencesStore();
 
-  const handleAddSymbol = async () => {
-    if (!vocalizationText.trim() || !tabName.trim() || !partsOfSpeech.trim()) {
-      alert("Please fill in all required fields.");
-      return;
-    }
+  const [newButtonTextLabel, setNewButtonTextLabel] = useState<string>();
+  const [newButtonImageURL, setNewButtonImageURL] = useState<string>();
+  const [newButtonCategory, setNewButtonCategory] =
+    useState<SymbolTileCategoryKey>();
+  const [newButtonTab, setNewButtonTab] = useState<string>();
 
-    const newButton = {
-      vocalization_text: vocalizationText.trim(),
-      tab_name: tabName.trim(),
-      parts_of_speech: partsOfSpeech.trim(),
-      is_deleted: isDeleted,
-      font_size: 16,
-    };
-
-    try {
-      const addedButton = await addButton(newButton);
-      console.log("Button added:", addedButton);
-
-      setTabTiles([...tabTiles, addedButton[0]]);
-
-      setVocalizationText("");
-      setTabName("");
-      setPartsOfSpeech("");
-    } catch (error) {
-      console.error("Error adding button:", error);
-      alert("Failed to add button.");
-    }
-  };
+  const submitNewButtonForm = () => {};
 
   return (
-    <View style={style.container}>
-      <Seperator />
-      <View style={style.formBox}>
-        <Text>Vocalization Text *</Text>
-        <TextInput
-          value={vocalizationText}
-          onChangeText={setVocalizationText}
-          placeholder="Enter vocalization text"
-          placeholderTextColor="black"
-          style={style.input}
-        />
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+    >
+      <Text style={styles.header}>Settings & Personalization</Text>
 
-        <Text>Tab Name *</Text>
-        <TextInput
-          value={tabName}
-          onChangeText={setTabName}
-          placeholder="Enter tab name"
-          placeholderTextColor="black"
-          style={style.input}
-        />
-
-        <Text>Parts of Speech *</Text>
-        <TextInput
-          value={partsOfSpeech}
-          onChangeText={setPartsOfSpeech}
-          placeholder="Enter part of speech"
-          placeholderTextColor="black"
-          style={style.input}
-        />
-        <TouchableOpacity
-          style={[
-            style.addButton,
-            { backgroundColor: buttonCategoryColors.get(partsOfSpeech) },
-          ]}
-          onPress={handleAddSymbol}
-          disabled={
-            !vocalizationText.trim() || !tabName.trim() || !partsOfSpeech.trim()
-          }
+      <View style={styles.section}>
+        <Text style={styles.sectionHeader}>Font Size</Text>
+        <Text style={styles.helper}>
+          Use a font size that is easiest for you to see.
+        </Text>
+        <Picker
+          selectedValue={buttonDefaultFontSize}
+          onValueChange={(v) => {
+            setButtonDefaultFontSize(v);
+          }}
         >
-          <Text style={style.addButtonText}>Add Symbol Tile</Text>
-        </TouchableOpacity>
+          <Picker.Item label="Small" value="16" />
+          <Picker.Item label="Medium" value="22" />
+          <Picker.Item label="Large" value="28" />
+        </Picker>
       </View>
-    </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionHeader}>Show Image Labels</Text>
+        <Text style={styles.helper}>Should buttons have images?</Text>
+        <Switch
+          value={showButtonImageLabels}
+          onValueChange={(v) => {
+            setShowButtonImageLabels(v);
+          }}
+        />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionHeader}>Show Text Labels</Text>
+        <Text style={styles.helper}>Should buttons have text?</Text>
+        <Switch
+          value={showButtonTextLabels}
+          onValueChange={(v) => {
+            setShowButtonTextLabels(v);
+          }}
+        />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionHeader}>Text-to-Speech Voice</Text>
+        <Text style={styles.helper}>Availability depends on your device.</Text>
+        <Picker
+          selectedValue={ttsVoice}
+          onValueChange={(v) => {
+            setTTSVoice(v);
+          }}
+        >
+          {TTS_VOICES.map((voice) => (
+            <Picker.Item key={voice} label={voice} value={voice} />
+          ))}
+        </Picker>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionHeader}>Color Coding</Text>
+        <Text style={styles.helper}>
+          Should buttons be color coded by category?
+        </Text>
+        <Switch
+          value={showButtonCategoryColors}
+          onValueChange={(v) => {
+            setShowButtonCategoryColors(v);
+          }}
+        />
+      </View>
+
+      {showButtonCategoryColors && (
+        <View style={styles.subsection}>
+          <Text style={styles.sectionHeader}>Category Colors</Text>
+          <Text style={styles.helper}>
+            Each category must have a unique color.
+          </Text>
+          {Object.keys(SymbolTileCategoryKey)
+            .filter((key) => isNaN(Number(key)))
+            .map((key) => (
+              <View style={styles.section}>
+                <Text style={styles.sectionHeader}>{key}</Text>
+              </View>
+            ))}
+        </View>
+      )}
+
+      <View style={styles.section}>
+        <Text style={styles.sectionHeader}>Add a Custom Button</Text>
+        <Text style={styles.helper}>Add your own personalized button.</Text>
+        <View style={styles.subsection}>
+          <Text style={styles.sectionHeader}>Text Label</Text>
+          <TextInput
+            value={newButtonTextLabel}
+            onChangeText={setNewButtonTextLabel}
+            placeholder="..."
+          />
+
+          <Text style={styles.sectionHeader}>Image Label</Text>
+          <TextInput
+            value={newButtonImageURL}
+            onChangeText={setNewButtonImageURL}
+            placeholder="..."
+          />
+
+          <Text style={styles.sectionHeader}>Category</Text>
+          <Picker
+            selectedValue={newButtonCategory}
+            onValueChange={setNewButtonCategory}
+          >
+            {Object.keys(SymbolTileCategoryKey)
+              .filter((key) => isNaN(Number(key)))
+              .map((key) => (
+                <Picker.Item label={key} value={key} />
+              ))}
+          </Picker>
+
+          <Text style={styles.sectionHeader}>Tab</Text>
+          <Picker
+            selectedValue={newButtonTab}
+            onValueChange={setNewButtonTab}
+          ></Picker>
+
+          <TouchableOpacity onPress={submitNewButtonForm} style={styles.button}>
+            <FontAwesome name="plus" size={20} color="white" /> Add custom
+            button
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionHeader}>Removed Buttons</Text>
+        <Text style={styles.helper}>
+          Restore or permanently delete buttons you've removed.
+        </Text>
+      </View>
+    </ScrollView>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#acaefaff",
   },
-  colorPalette: {
-    flexDirection: "row",
-    marginTop: 10,
-    gap: 10,
+  contentContainer: {
+    padding: 20,
   },
-  colorOption: {
-    width: 40,
-    height: 40,
-    borderRadius: 20, // Makes the buttons round
-    borderWidth: 2,
-    borderColor: "transparent",
-  },
-  selectedColor: {
-    borderColor: "black", // Highlight the selected color
-    borderWidth: 4,
-  },
-  addButton: {
-    marginTop: 15,
-    padding: 10,
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  addButtonText: {
-    color: "black",
+  header: {
+    fontSize: 20,
     fontWeight: "bold",
+    marginBottom: 20,
   },
-  formBox: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 15,
-    borderRadius: 10,
-    marginVertical: 10,
-    width: 300,
-    backgroundColor: "white",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#aaa",
-    padding: 5,
+  section: {
+    marginTop: 10,
     marginBottom: 10,
-    borderRadius: 5,
+  },
+  sectionHeader: {
+    fontSize: 16,
+  },
+  helper: {
+    fontSize: 14,
+    color: "#565656ff",
+  },
+  subsection: {
+    padding: 15,
+    borderWidth: 1,
+  },
+  button: {
+    flex: 1,
+    flexDirection: "row",
+    backgroundColor: "#7ab0f7ff",
+    borderRadius: 15,
+    padding: 10,
+    justifyContent: "center",
+    color: "white",
   },
 });
 
-export default SettingsPage;
+export default AACUserSettingsPage;

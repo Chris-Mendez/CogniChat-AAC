@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import { SymbolTileCategoryKey } from "../types/symbol-tile-categories";
 
 /**
  * Represents the properties of a user's preferences
@@ -77,9 +78,9 @@ type AACPrefsContextType = {
   /**
    * Colors for the backgrounds of buttons based on categories.
    */
-  buttonCategoryColors: Map<string, string>;
+  buttonCategoryColors: Map<SymbolTileCategoryKey, string>;
   setButtonCategoryColors: React.Dispatch<
-    React.SetStateAction<Map<string, string>>
+    React.SetStateAction<Map<SymbolTileCategoryKey, string>>
   >;
 };
 
@@ -107,13 +108,13 @@ export const AACPreferencesProvider: React.FC<{
   const [showButtonTextLabels, setShowButtonTextLabels] =
     useState<boolean>(true);
   const [buttonCategoryColors, setButtonCategoryColors] = useState<
-    Map<string, string>
+    Map<SymbolTileCategoryKey, string>
   >(
-    new Map<string, string>([
-      ["other", "ffffff"],
-      ["noun", "ff6666"],
-      ["adjective", "66cc66"],
-      ["verb", "6699ff"],
+    new Map<SymbolTileCategoryKey, string>([
+      [SymbolTileCategoryKey.other, "ffffff"],
+      [SymbolTileCategoryKey.noun, "ff6666"],
+      [SymbolTileCategoryKey.adjective, "66cc66"],
+      [SymbolTileCategoryKey.verb, "6699ff"],
     ])
   );
 

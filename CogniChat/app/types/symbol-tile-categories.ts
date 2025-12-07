@@ -4,4 +4,9 @@
  * @remarks
  * Categories are hardcoded; users cannot add or remove them.
  */
-export type SymbolTileCategoryKey = "other" | "noun" | "adjective" | "verb";
+export enum SymbolTileCategoryKey {
+  other,
+  noun,
+  adjective,
+  verb,
+}
