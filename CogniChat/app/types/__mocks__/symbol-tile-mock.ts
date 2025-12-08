@@ -1,3 +1,4 @@
+import { SymbolTileCategoryKey } from "../symbol-tile-categories";
 import { SymbolTileData } from "../symbol-tile-data";
 import uuid from "react-native-uuid";
 
@@ -11,7 +12,7 @@ export function createMockSymbolTile(): SymbolTileData {
     textLabelFontFamily: "arial",
     textLabelFontSize: 12,
     vocalizationText: "Vocalize",
-    category: "other",
+    category: SymbolTileCategoryKey.other,
   };
 }
 

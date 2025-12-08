@@ -3,6 +3,7 @@ import React, { JSX } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SymbolTileData } from "../types/symbol-tile-data";
 import SymbolTile from "./symbol-tile";
+import uuid from "react-native-uuid";
 
 /**
  * @interface SentenceComposerBarProps
@@ -41,7 +42,7 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
     <View style={styles.container}>
       <ScrollView style={styles.listContainer} horizontal={true}>
         {sentence.map((tile) => (
-          <View style={[styles.symbol]} key={tile.key}>
+          <View style={[styles.symbol]} key={uuid.v4()}>
             <SymbolTile symbolTileData={tile} />
           </View>
         ))}

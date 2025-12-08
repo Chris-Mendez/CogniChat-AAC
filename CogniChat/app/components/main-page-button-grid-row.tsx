@@ -7,7 +7,7 @@ import SymbolTile from "./symbol-tile";
 
 export const MainPageButtonGridRow = () => {
   const { tabTiles, setTabTiles, setSentence } = useAACSymbolTilesStore();
-  const [editMode, setEditMode] = useState<boolean>(true);
+  const [editMode, setEditMode] = useState<boolean>(false);
 
   const doRenderItem = (tile: SymbolTileData): JSX.Element => {
     return <SymbolTile symbolTileData={tile} />;
