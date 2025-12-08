@@ -25,7 +25,7 @@ export const MainPageHeaderRow = () => {
 const styles = StyleSheet.create({
   container: {
     height: 100,
-    // flex: 1,
+    flex: 1,
     flexDirection: "row",
     backgroundColor: "white",
     justifyContent: "space-between",
