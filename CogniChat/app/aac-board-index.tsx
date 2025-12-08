@@ -3,7 +3,6 @@ import { StyleSheet, View } from "react-native";
 import MainPageButtonGridRow from "./components/main-page-button-grid-row";
 import MainPageHeaderRow from "./components/main-page-header-row";
 import MainPageSentenceComposerRow from "./components/main-page-sentence-composer-row";
-import MainPageTabsRow from "./components/main-page-tabs-row";
 
 const AACBoard = () => {
   return (
@@ -13,9 +12,6 @@ const AACBoard = () => {
       </View>
       <View style={styles.sentenceComposerRow}>
         <MainPageSentenceComposerRow />
-      </View>
-      <View style={styles.tabsRow}>
-        <MainPageTabsRow />
       </View>
       <View style={styles.gridRow}>
         <MainPageButtonGridRow />
@@ -33,9 +29,6 @@ const styles = StyleSheet.create({
   },
   sentenceComposerRow: {
     height: 100,
-  },
-  tabsRow: {
-    height: 60,
   },
   gridRow: { flex: 1 },
 });
