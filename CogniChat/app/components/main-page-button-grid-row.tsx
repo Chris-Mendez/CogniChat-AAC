@@ -6,7 +6,7 @@ import { SymbolTileData } from "../types/symbol-tile-data";
 import SymbolTile from "./symbol-tile";
 
 export const MainPageButtonGridRow = () => {
-  const { tabTiles, setTabTiles } = useAACSymbolTilesStore();
+  const { tabTiles, setTabTiles, setSentence } = useAACSymbolTilesStore();
   const [editMode, setEditMode] = useState<boolean>(true);
 
   const doRenderItem = (tile: SymbolTileData): JSX.Element => {
@@ -27,7 +27,7 @@ export const MainPageButtonGridRow = () => {
   };
 
   const doPressItem = (tile: SymbolTileData) => {
-    console.log("Pressed symbol tile " + tile.key);
+    setSentence((p) => [...p, tile]);
   };
 
   return (
