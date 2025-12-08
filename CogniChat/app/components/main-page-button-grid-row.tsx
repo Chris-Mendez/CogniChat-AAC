@@ -1,5 +1,5 @@
 import React, { JSX, useState } from "react";
-import { StyleSheet, Switch, View } from "react-native";
+import { StyleSheet, Switch, View, Text } from "react-native";
 import { useAACSymbolTilesStore } from "../contexts/aac-symbol-tiles-provider";
 import EditableDNDGrid from "./editable-dnd-grid";
 import { SymbolTileData } from "../types/symbol-tile-data";
@@ -38,8 +38,8 @@ export const MainPageButtonGridRow = () => {
           onValueChange={(v) => {
             setEditMode(v);
           }}
-        />{" "}
-        Edit mode
+        />
+        <Text>Edit mode</Text>
       </View>
       <EditableDNDGrid<SymbolTileData>
         items={tabTiles}

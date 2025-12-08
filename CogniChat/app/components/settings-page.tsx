@@ -56,10 +56,12 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
           onValueChange={(v) => {
             setButtonDefaultFontSize(v);
           }}
+          style={styles.picker}
+          itemStyle={styles.pickerItem}
         >
-          <Picker.Item label="Small" value="16" />
-          <Picker.Item label="Medium" value="22" />
-          <Picker.Item label="Large" value="28" />
+          <Picker.Item label={"Small"} value={"16"} key={"16"} />
+          <Picker.Item label={"Medium"} value={"22"} key={"22"} />
+          <Picker.Item label={"Large"} value={"28"} key={"28"} />
         </Picker>
       </View>
 
@@ -93,6 +95,8 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
           onValueChange={(v) => {
             setTTSVoice(v);
           }}
+          style={styles.picker}
+          itemStyle={styles.pickerItem}
         >
           {TTS_VOICES.map((voice) => (
             <Picker.Item key={voice} label={voice} value={voice} />
@@ -151,6 +155,8 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
           <Picker
             selectedValue={newButtonCategory}
             onValueChange={setNewButtonCategory}
+            style={styles.picker}
+            itemStyle={styles.pickerItem}
           >
             {Object.keys(SymbolTileCategoryKey)
               .filter((key) => isNaN(Number(key)))
@@ -163,11 +169,13 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
           <Picker
             selectedValue={newButtonTab}
             onValueChange={setNewButtonTab}
+            style={styles.picker}
+            itemStyle={styles.pickerItem}
           ></Picker>
 
           <TouchableOpacity onPress={submitNewButtonForm} style={styles.button}>
-            <FontAwesome name="plus" size={20} color="white" /> Add custom
-            button
+            <FontAwesome name="plus" size={20} color="white" />
+            <Text>Add custom button</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -185,6 +193,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
   },
   contentContainer: {
     padding: 20,
@@ -217,6 +226,10 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: "center",
     color: "white",
+  },
+  picker: {},
+  pickerItem: {
+    color: "black",
   },
 });
 
