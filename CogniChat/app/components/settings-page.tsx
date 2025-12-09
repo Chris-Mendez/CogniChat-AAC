@@ -12,6 +12,7 @@ import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
 import { Picker } from "@react-native-picker/picker";
 import { SymbolTileCategoryKey } from "../types/symbol-tile-categories";
 import { FontAwesome } from "@expo/vector-icons";
+import CategoryColorSelector from "./category-color-selector";
 
 interface AACUserSettingsPageProps {}
 
@@ -29,6 +30,8 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
     setTTSVoice,
     showButtonCategoryColors,
     setShowButtonCategoryColors,
+    buttonCategoryColors,
+    setButtonCategoryColors,
   } = useAACPreferencesStore();
 
   const [newButtonTextLabel, setNewButtonTextLabel] = useState<string>();
@@ -123,13 +126,24 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
           <Text style={styles.helper}>
             Each category must have a unique color.
           </Text>
-          {Object.keys(SymbolTileCategoryKey)
-            .filter((key) => isNaN(Number(key)))
-            .map((key) => (
-              <View style={styles.section}>
-                <Text style={styles.sectionHeader}>{key}</Text>
-              </View>
-            ))}
+          <CategoryColorSelector
+            selectedColors={buttonCategoryColors}
+            setSelectedColors={setButtonCategoryColors}
+            availableColors={[
+              "#F39D2A",
+              "#23B883",
+              "#4085F3",
+              "#CEC4F7",
+              "#ED4649",
+              "#F7732A",
+              "#AEDEED",
+              "#86CA2E",
+              "#A75CF4",
+              "#EA4C99",
+              "#ffffff",
+              "#000000",
+            ]}
+          />
         </View>
       )}
 
