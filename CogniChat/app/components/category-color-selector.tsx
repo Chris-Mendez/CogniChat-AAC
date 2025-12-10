@@ -6,6 +6,7 @@ import {
   SymbolTileCategoryProperties,
 } from "../types/symbol-tile-categories";
 import { getContrastYIQ } from "../utils/color-helper";
+import { enumValuesOf } from "../utils/enum-iterator";
 
 /**
  * @interface CategoryColorSelectorProps
@@ -53,13 +54,9 @@ const CategoryColorSelector: React.FC<CategoryColorSelectorProps> = ({
     setSelectedColors(newMap);
   };
 
-  const enumRows = Object.values(SymbolTileCategoryKey).filter(
-    (v) => typeof v === "number"
-  ) as SymbolTileCategoryKey[];
-
   return (
     <View style={styles.container}>
-      {enumRows.map((enumKey) => {
+      {enumValuesOf(SymbolTileCategoryKey).map((enumKey) => {
         return (
           <View key={enumKey} style={styles.row}>
             <Text style={styles.label}>

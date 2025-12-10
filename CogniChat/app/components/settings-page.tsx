@@ -10,9 +10,14 @@ import {
 } from "react-native";
 import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
 import { Picker } from "@react-native-picker/picker";
-import { SymbolTileCategoryKey } from "../types/symbol-tile-categories";
+import {
+  SymbolTileCategoryKey,
+  SymbolTileCategoryProperties,
+} from "../types/symbol-tile-categories";
 import { FontAwesome } from "@expo/vector-icons";
 import CategoryColorSelector from "./category-color-selector";
+import { enumValuesOf } from "../utils/enum-iterator";
+import { useAACSymbolTilesStore } from "../contexts/aac-symbol-tiles-provider";
 
 interface AACUserSettingsPageProps {}
 
@@ -33,6 +38,8 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
     buttonCategoryColors,
     setButtonCategoryColors,
   } = useAACPreferencesStore();
+
+  const { allTabs } = useAACSymbolTilesStore();
 
   const [newButtonTextLabel, setNewButtonTextLabel] = useState<string>();
   const [newButtonImageURL, setNewButtonImageURL] = useState<string>();
@@ -151,45 +158,49 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
         <Text style={styles.sectionHeader}>Add a Custom Button</Text>
         <Text style={styles.helper}>Add your own personalized button.</Text>
         <View style={styles.subsection}>
-          <Text style={styles.sectionHeader}>Text Label</Text>
+          <Text style={styles.sectionHeader}>Text</Text>
+          <Text style={styles.helper}>Optional</Text>
           <TextInput
             value={newButtonTextLabel}
             onChangeText={setNewButtonTextLabel}
-            placeholder="..."
-          />
-
-          <Text style={styles.sectionHeader}>Image Label</Text>
-          <TextInput
-            value={newButtonImageURL}
-            onChangeText={setNewButtonImageURL}
-            placeholder="..."
+            placeholder="Enter word or phrase..."
           />
 
           <Text style={styles.sectionHeader}>Category</Text>
+          <Text style={styles.helper}>Required</Text>
           <Picker
             selectedValue={newButtonCategory}
             onValueChange={setNewButtonCategory}
             style={styles.picker}
             itemStyle={styles.pickerItem}
           >
-            {Object.keys(SymbolTileCategoryKey)
-              .filter((key) => isNaN(Number(key)))
-              .map((key) => (
-                <Picker.Item label={key} value={key} />
-              ))}
+            {enumValuesOf(SymbolTileCategoryKey).map((enumKey) => (
+              <Picker.Item
+                label={SymbolTileCategoryProperties[enumKey].singular}
+                value={enumKey}
+              />
+            ))}
           </Picker>
 
           <Text style={styles.sectionHeader}>Tab</Text>
+          <Text style={styles.helper}>Required</Text>
           <Picker
             selectedValue={newButtonTab}
             onValueChange={setNewButtonTab}
             style={styles.picker}
             itemStyle={styles.pickerItem}
-          ></Picker>
+          >
+            {Object.values(allTabs).map((tab) => (
+              <Picker.Item label={tab.name} value={tab.key} />
+            ))}
+          </Picker>
 
-          <TouchableOpacity onPress={submitNewButtonForm} style={styles.button}>
+          <TouchableOpacity
+            onPress={submitNewButtonForm}
+            style={styles.addCustomBtn}
+          >
             <FontAwesome name="plus" size={20} color="white" />
-            <Text>Add custom button</Text>
+            <Text style={styles.addCustomBtnText}> Add custom button</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -223,6 +234,7 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     fontSize: 16,
+    marginTop: 10,
   },
   helper: {
     fontSize: 14,
@@ -232,7 +244,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderWidth: 1,
   },
-  button: {
+  addCustomBtn: {
     flex: 1,
     flexDirection: "row",
     backgroundColor: "#7ab0f7ff",
@@ -240,6 +252,12 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: "center",
     color: "white",
+    marginTop: 10,
+  },
+  addCustomBtnText: {
+    marginLeft: 10,
+    color: "white",
+    fontWeight: "bold",
   },
   picker: {},
   pickerItem: {

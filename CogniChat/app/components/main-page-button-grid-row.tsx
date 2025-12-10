@@ -1,12 +1,27 @@
 import React, { JSX, useState } from "react";
-import { StyleSheet, Switch, View, Text } from "react-native";
+import {
+  StyleSheet,
+  Switch,
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { useAACSymbolTilesStore } from "../contexts/aac-symbol-tiles-provider";
 import EditableDNDGrid from "./editable-dnd-grid";
 import { SymbolTileData } from "../types/symbol-tile-data";
 import SymbolTile from "./symbol-tile";
 
 export const MainPageButtonGridRow = () => {
-  const { tabTiles, setTabTiles, setSentence } = useAACSymbolTilesStore();
+  const {
+    activeTabSymbolTiles,
+    setSentence,
+    removeSymbolTileFromTab: removeDataFromTab,
+    activeTabId,
+    swapItemsInActiveTab,
+    allTabs,
+    setActiveTabId,
+  } = useAACSymbolTilesStore();
   const [editMode, setEditMode] = useState<boolean>(false);
 
   const doRenderItem = (tile: SymbolTileData): JSX.Element => {
@@ -14,16 +29,11 @@ export const MainPageButtonGridRow = () => {
   };
 
   const doDeleteItem = (key: string) => {
-    const copy = [...tabTiles];
-    setTabTiles(copy.filter((item) => item.key !== key));
+    removeDataFromTab(activeTabId, key);
   };
 
   const doSwapItems = (indexFrom: number, indexTo: number) => {
-    let copy = [...tabTiles];
-    let temp = copy[indexFrom];
-    copy[indexFrom] = copy[indexTo];
-    copy[indexTo] = temp;
-    setTabTiles(copy);
+    swapItemsInActiveTab(indexFrom, indexTo);
   };
 
   const doPressItem = (tile: SymbolTileData) => {
@@ -39,10 +49,33 @@ export const MainPageButtonGridRow = () => {
             setEditMode(v);
           }}
         />
-        <Text>Edit mode</Text>
+        <Text> Edit mode</Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}
+        >
+          {Object.values(allTabs).map((tab) => {
+            const isActive = tab.key === activeTabId;
+
+            return (
+              <TouchableOpacity
+                key={tab.key}
+                style={[styles.tab, isActive && styles.activeTab]}
+                onPress={() => setActiveTabId(tab.key)}
+              >
+                <Text
+                  style={[styles.tabText, isActive && styles.activeTabText]}
+                >
+                  {tab.name}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
       </View>
       <EditableDNDGrid<SymbolTileData>
-        items={tabTiles}
+        items={activeTabSymbolTiles}
         renderItem={doRenderItem}
         onDeleteItem={doDeleteItem}
         onSwapItems={doSwapItems}
@@ -60,6 +93,29 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#AF8EC9",
     paddingVertical: 5,
+  },
+  scrollContent: {
+    paddingHorizontal: 8,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  tab: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    backgroundColor: "#e0e0e0",
+    marginRight: 8,
+  },
+  activeTab: {
+    backgroundColor: "#4A90E2",
+  },
+  tabText: {
+    color: "#555",
+    fontSize: 14,
+  },
+  activeTabText: {
+    color: "#fff",
+    fontWeight: "600",
   },
 });
 
