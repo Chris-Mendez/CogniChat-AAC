@@ -18,6 +18,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import CategoryColorSelector from "./category-color-selector";
 import { enumValuesOf } from "../utils/enum-iterator";
 import { useAACSymbolTilesStore } from "../contexts/aac-symbol-tiles-provider";
+import uuid from "react-native-uuid";
 
 interface AACUserSettingsPageProps {}
 
@@ -39,15 +40,31 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
     setButtonCategoryColors,
   } = useAACPreferencesStore();
 
-  const { allTabs } = useAACSymbolTilesStore();
+  const { allTabs, activeTabId, addSymbolTileToTab, addSymbolTile } =
+    useAACSymbolTilesStore();
 
   const [newButtonTextLabel, setNewButtonTextLabel] = useState<string>();
   const [newButtonImageURL, setNewButtonImageURL] = useState<string>();
   const [newButtonCategory, setNewButtonCategory] =
-    useState<SymbolTileCategoryKey>();
+    useState<SymbolTileCategoryKey>(SymbolTileCategoryKey.other);
   const [newButtonTab, setNewButtonTab] = useState<string>();
 
-  const submitNewButtonForm = () => {};
+  const submitNewButtonForm = () => {
+    const key = uuid.v4();
+    console.log(newButtonCategory);
+    addSymbolTile({
+      textLabelText: newButtonTextLabel,
+      showTextLabel: true,
+      imageLabelSource: undefined,
+      showImageLabel: false,
+      textLabelFontFamily: "",
+      textLabelFontSize: 12,
+      vocalizationText: newButtonTextLabel,
+      category: Number(newButtonCategory),
+      key: key,
+    });
+    addSymbolTileToTab(activeTabId, key);
+  };
 
   return (
     <ScrollView
