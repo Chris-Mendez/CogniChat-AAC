@@ -40,7 +40,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
     setButtonCategoryColors,
   } = useAACPreferencesStore();
 
-  const { allTabs, activeTabId, addSymbolTileToTab, addSymbolTile } =
+  const { allTabs, addSymbolTileToTab, addSymbolTile } =
     useAACSymbolTilesStore();
 
   const [newButtonTextLabel, setNewButtonTextLabel] = useState<string>();
@@ -50,8 +50,8 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
   const [newButtonTab, setNewButtonTab] = useState<string>();
 
   const submitNewButtonForm = () => {
+    if (!newButtonTab) return;
     const key = uuid.v4();
-    console.log(newButtonCategory);
     addSymbolTile({
       textLabelText: newButtonTextLabel,
       showTextLabel: true,
@@ -63,7 +63,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
       category: Number(newButtonCategory),
       key: key,
     });
-    addSymbolTileToTab(activeTabId, key);
+    addSymbolTileToTab(newButtonTab, key);
   };
 
   return (
@@ -207,6 +207,11 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
             style={styles.picker}
             itemStyle={styles.pickerItem}
           >
+            <Picker.Item
+              label="Select a tab..."
+              value={null}
+              key="placeholder"
+            />
             {Object.values(allTabs).map((tab) => (
               <Picker.Item label={tab.name} value={tab.key} />
             ))}
