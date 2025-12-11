@@ -16,11 +16,6 @@ import { SymbolTileCategoryKey } from "@/app/types/symbol-tile-categories";
  */
 export interface SymbolTileData extends HasKey {
   /**
-   * The unique id of this symbol tile.
-   */
-  key: string;
-
-  /**
    * The text label of this symbol tile.
    * @example "Hello"
    */

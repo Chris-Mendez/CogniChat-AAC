@@ -7,11 +7,6 @@ import { HasKey } from "@/app/types/has-key";
  */
 export interface SymbolTileTabData extends HasKey {
   /**
-   * The unique id of this symbol tile tab.
-   */
-  key: string;
-
-  /**
    * The name of this symbol tile tab as it is displayed
    * and configured by the user.
    * @example "Feelings"
