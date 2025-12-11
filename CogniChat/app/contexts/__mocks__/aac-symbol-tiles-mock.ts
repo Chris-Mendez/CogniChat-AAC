@@ -7,7 +7,7 @@ import { shuffle } from "@/app/utils/shuffle-array";
 const NUMBER_OF_SYMBOL_TILES = 60;
 const NUMBER_OF_TABS = 20;
 
-export function createMockAppState(): {
+export function createMockAACSymbolTiles(): {
   mockAllSymbolTiles: Record<string, SymbolTileData>;
   mockAllTabs: Record<string, SymbolTileTabData>;
   mockTabToSymbolTilesMap: Record<string, string[]>;

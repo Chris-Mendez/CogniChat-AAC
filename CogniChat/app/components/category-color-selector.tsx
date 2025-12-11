@@ -11,11 +11,11 @@ import { enumValuesOf } from "../utils/enum-iterator";
 /**
  * @interface CategoryColorSelectorProps
  *
- * @property {Map<SymbolTileCategoryKey, string>} selectedColors - the
+ * @property {Map<SymbolTileCategoryKey, string>} selectedColors - A
  * map of colors the user currently has selected.
- * @property {function} setSelectedClors - callback to update selectedColors.
- * @property {string[]} availableColors - an array of hex colors available
- * for the user to select from.
+ * @property {function} setSelectedClors - Callback to update selectedColors.
+ * @property {string[]} availableColors - An array of hex colors available
+ * that the user can select from.
  */
 interface CategoryColorSelectorProps {
   selectedColors: Map<SymbolTileCategoryKey, string>;

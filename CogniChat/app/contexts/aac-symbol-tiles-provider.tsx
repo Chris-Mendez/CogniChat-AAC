@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
 import { SymbolTileData } from "../types/symbol-tile-data";
 import { SymbolTileTabData } from "../types/symbol-tile-tab-data";
-import { createMockAppState } from "./__mocks__/aac-symbol-tiles-mock";
+import { createMockAACSymbolTiles } from "./__mocks__/aac-symbol-tiles-mock";
+import { createDefaultAACSymbolTiles } from "../constants/default-aac-symbol-tiles";
 
 type SymbolTileMap = Record<string, SymbolTileData>;
 type TabMap = Record<string, SymbolTileTabData>;
@@ -39,20 +40,28 @@ export const AACSymbolTilesProvider: React.FC<{
 }> = ({ children }) => {
   // temporary -- for testing
   // (this is also how you populate the app with data)
+  /*
   const {
-    mockAllSymbolTiles,
-    mockAllTabs,
-    mockTabToSymbolTilesMap,
-    mockDefaultTab,
-  } = createMockAppState();
+    mockAllSymbolTiles: allSymbolTilesData,
+    mockAllTabs: allTabsData,
+    mockTabToSymbolTilesMap: tabToSymbolTilesMapData,
+    mockDefaultTab: defaultTabData,
+  } = createMockAACSymbolTiles();
+   */
+  const {
+    defaultAllSymbolTiles: allSymbolTilesData,
+    defaultAllTabs: allTabsData,
+    defaultTabToSymbolTilesMap: tabToSymbolTilesMapData,
+    defaultTab: defaultTabData,
+  } = createDefaultAACSymbolTiles();
 
   const [allSymbolTiles, setAllSymbolTiles] =
-    useState<SymbolTileMap>(mockAllSymbolTiles);
-  const [allTabs, setAllTabs] = useState<TabMap>(mockAllTabs);
+    useState<SymbolTileMap>(allSymbolTilesData);
+  const [allTabs, setAllTabs] = useState<TabMap>(allTabsData);
   const [tabData, setTabData] = useState<TabToSymbolTilesMap>(
-    mockTabToSymbolTilesMap
+    tabToSymbolTilesMapData
   );
-  const [activeTabId, setActiveTabId] = useState<string>(mockDefaultTab);
+  const [activeTabId, setActiveTabId] = useState<string>(defaultTabData);
   const [sentence, setSentence] = useState<SymbolTileData[]>([]);
 
   const activeTabSymbolTiles = useMemo(() => {
@@ -116,12 +125,13 @@ export const AACSymbolTilesProvider: React.FC<{
 
   const swapItemsInActiveTab = (from: number, to: number) => {
     setTabData((prev) => {
-      const ids = [...prev[activeTabId]];
-      const [moved] = ids.splice(from, 1);
-      ids.splice(to, 0, moved);
+      const copy = [...prev[activeTabId]];
+      const temp = copy[from];
+      copy[from] = copy[to];
+      copy[to] = temp;
       return {
         ...prev,
-        [activeTabId]: ids,
+        [activeTabId]: copy,
       };
     });
   };

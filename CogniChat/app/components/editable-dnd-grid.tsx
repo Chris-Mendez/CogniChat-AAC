@@ -49,10 +49,11 @@ interface EditableDNDGridProps<T extends HasKey> {
 }
 
 /**
- * The guiding philosophy behind this component is that we have an
- * ordered array of items and a variably sized container. This component
- * tries to best fill in the container with as many items
- * as possible using absolute positioning.
+ * The guiding philosophy behind this component is that we're given
+ * an ordered array of items and a variably sized container that we
+ * don't know the dimensions of until it's rendered. This component
+ * tries to fill in the container with as many as those items as
+ * possible. It uses absolute positioning and reanimated.
  */
 function EditableDNDGrid<T extends HasKey>({
   items,

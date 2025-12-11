@@ -43,13 +43,6 @@ export const MainPageButtonGridRow = () => {
   return (
     <>
       <View style={styles.gridControlsContainer}>
-        <Switch
-          value={editMode}
-          onValueChange={(v) => {
-            setEditMode(v);
-          }}
-        />
-        <Text> Edit mode</Text>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -73,6 +66,15 @@ export const MainPageButtonGridRow = () => {
             );
           })}
         </ScrollView>
+        <View style={styles.edit}>
+          <Switch
+            value={editMode}
+            onValueChange={(v) => {
+              setEditMode(v);
+            }}
+          />
+          <Text> Edit mode</Text>
+        </View>
       </View>
       <EditableDNDGrid<SymbolTileData>
         items={activeTabSymbolTiles}
@@ -116,6 +118,12 @@ const styles = StyleSheet.create({
   activeTabText: {
     color: "#fff",
     fontWeight: "600",
+  },
+  edit: {
+    flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center",
+    padding: 8,
   },
 });
 

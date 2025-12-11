@@ -1,12 +1,5 @@
 import React, { JSX } from "react";
-import {
-  TouchableOpacity,
-  View,
-  Image,
-  Text,
-  StyleSheet,
-  GestureResponderEvent,
-} from "react-native";
+import { View, Image, Text, StyleSheet } from "react-native";
 import { SymbolTileData } from "../types/symbol-tile-data";
 import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
 

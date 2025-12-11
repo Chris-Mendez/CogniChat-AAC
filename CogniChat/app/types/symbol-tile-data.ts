@@ -3,8 +3,6 @@ import { HasKey } from "@/app/types/has-key";
 import { SymbolTileCategoryKey } from "@/app/types/symbol-tile-categories";
 
 /**
- * Represents the properties of a symbol tile.
- *
  * @remarks
  * This interface defines the important properties of a
  * symbol tile, which is essentially just an image and

@@ -1,8 +1,9 @@
 /**
- * Enumeration of all available symbol tile categories.
- *
  * @remarks
  * Categories are hardcoded; users cannot add or remove them.
+ * See {@link SymbolTileCategoryProperties} for properties associated
+ * with each key. See {@link SymbolTileCategoryKeyDetails} for the
+ * properteries available.
  */
 export enum SymbolTileCategoryKey {
   other,

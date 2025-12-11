@@ -21,7 +21,8 @@ interface SentenceComposerBarProps {
 /**
  * A component for rendering the sentence composer bar, which
  * consists of a variable length array of symbol tiles, a delete button,
- * and clear all button.
+ * clear all button, speak button (using text-to-speech), and a manual
+ * phrase input box when the composer bar is pressed on.
  *
  * @param {SymbolTileGridProps} props {@link SentenceComposerBarProps}
  * @returns {JSX.Element} A React Native component.
@@ -61,7 +62,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
-    gap: 10,
     alignItems: "center",
   },
   listContainer: {
