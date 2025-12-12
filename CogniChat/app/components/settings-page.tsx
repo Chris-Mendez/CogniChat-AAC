@@ -65,6 +65,20 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
     addSymbolTileToTab(newButtonTab, key);
   };
 
+  const toggleShowImageLabels = (v: boolean) => {
+    if (v == false && showButtonTextLabels == false) {
+      setShowButtonTextLabels(true);
+    }
+    setShowButtonImageLabels(v);
+  };
+
+  const toggleShowTextLabels = (v: boolean) => {
+    if (v == false && showButtonImageLabels == false) {
+      setShowButtonImageLabels(true);
+    }
+    setShowButtonTextLabels(v);
+  };
+
   return (
     <ScrollView
       style={styles.container}
@@ -97,7 +111,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
         <Switch
           value={showButtonImageLabels}
           onValueChange={(v) => {
-            setShowButtonImageLabels(v);
+            toggleShowImageLabels(v);
           }}
         />
       </View>
@@ -108,7 +122,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
         <Switch
           value={showButtonTextLabels}
           onValueChange={(v) => {
-            setShowButtonTextLabels(v);
+            toggleShowTextLabels(v);
           }}
         />
       </View>

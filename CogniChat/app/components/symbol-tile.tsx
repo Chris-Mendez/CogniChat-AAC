@@ -21,8 +21,13 @@ interface SymbolTileProps {
 export const SymbolTile: React.FC<SymbolTileProps> = ({
   symbolTileData,
 }: SymbolTileProps): JSX.Element => {
-  const { buttonCategoryColors, buttonDefaultFontSize } =
-    useAACPreferencesStore();
+  const {
+    buttonCategoryColors,
+    buttonDefaultFontSize,
+    showButtonImageLabels,
+    showButtonCategoryColors,
+    showButtonTextLabels,
+  } = useAACPreferencesStore();
 
   // First, prepare the visuals for the image label and text label,
   // including the cases when there's both or neither.
@@ -54,8 +59,8 @@ export const SymbolTile: React.FC<SymbolTileProps> = ({
   // of the symbol tile.
   let hasImageLabel = symbolTileData.labelling.imgSrc != undefined;
   let hasTextLabel = symbolTileData.labelling.text != undefined;
-  let showImageLabel = hasImageLabel && true;
-  let showTextLabel = hasTextLabel && true;
+  let showImageLabel = hasImageLabel && showButtonImageLabels;
+  let showTextLabel = hasTextLabel && showButtonTextLabels;
   let content;
   if (showImageLabel && showTextLabel) {
     content = bothLabelComponent;
@@ -73,7 +78,9 @@ export const SymbolTile: React.FC<SymbolTileProps> = ({
       style={[
         styles.container,
         {
-          backgroundColor: buttonCategoryColors.get(symbolTileData.category),
+          backgroundColor: showButtonCategoryColors
+            ? buttonCategoryColors.get(symbolTileData.category)
+            : "#ffffff",
         },
       ]}
     >
