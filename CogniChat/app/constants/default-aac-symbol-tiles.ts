@@ -14,35 +14,29 @@ export function createDefaultAACSymbolTiles(): {
   builder.createTab("Test");
   builder.createSymbolTile("Test", {
     key: uuid.v4(),
-    textLabelText: "Yes",
-    showTextLabel: true,
-    imageLabelSource: require("../assets/yes.svg"),
-    showImageLabel: true,
-    textLabelFontFamily: "",
-    textLabelFontSize: 12,
-    vocalizationText: undefined,
+    labelling: {
+      text: "Yes",
+      imgSrc: require("../assets/yes.svg"),
+    },
+    vocalization: "Yes",
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile("Test", {
     key: uuid.v4(),
-    textLabelText: "No",
-    showTextLabel: true,
-    imageLabelSource: require("../assets/no.svg"),
-    showImageLabel: true,
-    textLabelFontFamily: "",
-    textLabelFontSize: 12,
-    vocalizationText: undefined,
+    labelling: {
+      text: "No",
+      imgSrc: require("../assets/no.svg"),
+    },
+    vocalization: "No",
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile("Test", {
     key: uuid.v4(),
-    textLabelText: "Want",
-    showTextLabel: true,
-    imageLabelSource: require("../assets/want.jpg"),
-    showImageLabel: true,
-    textLabelFontFamily: "",
-    textLabelFontSize: 12,
-    vocalizationText: undefined,
+    labelling: {
+      text: "Want",
+      imgSrc: require("../assets/want.jpg"),
+    },
+    vocalization: "Want",
     category: SymbolTileCategoryKey.other,
   });
 

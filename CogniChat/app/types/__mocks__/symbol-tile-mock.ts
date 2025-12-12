@@ -5,14 +5,12 @@ import uuid from "react-native-uuid";
 export function createMockSymbolTile(): SymbolTileData {
   return {
     key: uuid.v4(),
-    textLabelText: "Tile",
-    showTextLabel: true,
-    imageLabelSource: require("../../assets/300x300.png"),
-    showImageLabel: true,
-    textLabelFontFamily: "arial",
-    textLabelFontSize: 12,
-    vocalizationText: "Vocalize",
+    vocalization: "Tile",
     category: SymbolTileCategoryKey.other,
+    labelling: {
+      text: "Tile",
+      imgSrc: undefined,
+    },
   };
 }
 
@@ -20,7 +18,7 @@ export function createMockSymbolTiles(count: number): SymbolTileData[] {
   let result: SymbolTileData[] = [];
   for (let i = 0; i < count; i++) {
     let symbolTile = createMockSymbolTile();
-    symbolTile.textLabelText = "Tile " + (i + 1);
+    symbolTile.labelling.text = "Tile " + (i + 1);
     result.push(symbolTile);
   }
   return result;

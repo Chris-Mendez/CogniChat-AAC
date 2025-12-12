@@ -21,25 +21,25 @@ interface SymbolTileProps {
 export const SymbolTile: React.FC<SymbolTileProps> = ({
   symbolTileData,
 }: SymbolTileProps): JSX.Element => {
-  const { buttonCategoryColors } = useAACPreferencesStore();
+  const { buttonCategoryColors, buttonDefaultFontSize } =
+    useAACPreferencesStore();
 
   // First, prepare the visuals for the image label and text label,
   // including the cases when there's both or neither.
   const imageLabelComponent = (
-    <Image source={symbolTileData.imageLabelSource} style={styles.imageLabel} />
+    <Image source={symbolTileData.labelling.imgSrc} style={styles.imageLabel} />
   );
   const textLabelComponent = (
     <Text
       style={[
         styles.textLabel,
         {
-          fontSize: symbolTileData.textLabelFontSize,
-          fontFamily: symbolTileData.textLabelFontFamily,
+          fontSize: Number(buttonDefaultFontSize),
         },
       ]}
       numberOfLines={1}
     >
-      {symbolTileData.textLabelText}
+      {symbolTileData.labelling.text}
     </Text>
   );
   const bothLabelComponent = (
@@ -52,10 +52,10 @@ export const SymbolTile: React.FC<SymbolTileProps> = ({
 
   // Then, determine which labels should be shown based on the data
   // of the symbol tile.
-  let hasImageLabel = symbolTileData.imageLabelSource != undefined;
-  let hasTextLabel = symbolTileData.textLabelText != undefined;
-  let showImageLabel = hasImageLabel && symbolTileData.showImageLabel;
-  let showTextLabel = hasTextLabel && symbolTileData.showTextLabel;
+  let hasImageLabel = symbolTileData.labelling.imgSrc != undefined;
+  let hasTextLabel = symbolTileData.labelling.text != undefined;
+  let showImageLabel = hasImageLabel && true;
+  let showTextLabel = hasTextLabel && true;
   let content;
   if (showImageLabel && showTextLabel) {
     content = bothLabelComponent;

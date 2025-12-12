@@ -92,7 +92,7 @@ export const AACPreferencesProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [buttonDefaultFontSize, setButtonDefaultFontSize] =
-    useState<number>(14);
+    useState<number>(16);
   const [buttonDefaultFontFamily, setButtonDefaultFontFamily] =
     useState<string>("system-ui");
   const [enableSentencePrediction, setEnableSentencePrediction] =

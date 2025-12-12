@@ -43,7 +43,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
   const { allTabs, addSymbolTileToTab, addSymbolTile } =
     useAACSymbolTilesStore();
 
-  const [newButtonTextLabel, setNewButtonTextLabel] = useState<string>();
+  const [newButtonTextLabel, setNewButtonTextLabel] = useState<string>("");
   const [newButtonImageURL, setNewButtonImageURL] = useState<string>();
   const [newButtonCategory, setNewButtonCategory] =
     useState<SymbolTileCategoryKey>(SymbolTileCategoryKey.other);
@@ -51,17 +51,16 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
 
   const submitNewButtonForm = () => {
     if (!newButtonTab) return;
+    if (!newButtonTextLabel) return;
     const key = uuid.v4();
     addSymbolTile({
-      textLabelText: newButtonTextLabel,
-      showTextLabel: true,
-      imageLabelSource: undefined,
-      showImageLabel: false,
-      textLabelFontFamily: "",
-      textLabelFontSize: 12,
-      vocalizationText: newButtonTextLabel,
-      category: Number(newButtonCategory),
       key: key,
+      labelling: {
+        text: newButtonTextLabel,
+        imgSrc: undefined,
+      },
+      vocalization: newButtonTextLabel,
+      category: Number(newButtonCategory),
     });
     addSymbolTileToTab(newButtonTab, key);
   };
@@ -86,9 +85,9 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
           style={styles.picker}
           itemStyle={styles.pickerItem}
         >
-          <Picker.Item label={"Small"} value={"16"} key={"16"} />
-          <Picker.Item label={"Medium"} value={"22"} key={"22"} />
-          <Picker.Item label={"Large"} value={"28"} key={"28"} />
+          <Picker.Item label={"Small"} value={14} key={14} />
+          <Picker.Item label={"Medium"} value={22} key={22} />
+          <Picker.Item label={"Large"} value={32} key={32} />
         </Picker>
       </View>
 

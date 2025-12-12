@@ -14,17 +14,25 @@ import { SymbolTileCategoryKey } from "@/app/types/symbol-tile-categories";
  */
 export interface SymbolTileData extends HasKey {
   /**
-   * The text label of this symbol tile.
-   * @example "Hello"
+   * The labels for this symbol tile. Must
+   * be
    */
-  textLabelText: string | undefined;
+  labelling: ImageLabelOnly | TextLabelOnly | BothImageAndTextLabel;
 
   /**
-   * Should the text label be shown?
-   * @example false
+   * The text used for text-to-speech.
+   * @example "Hello"
    */
-  showTextLabel: boolean;
+  vocalization: string;
 
+  /**
+   * The category in which this symbol tile
+   * belongs to.
+   */
+  category: SymbolTileCategoryKey;
+}
+
+interface ImageLabelOnly {
   /**
    * The image label of this symbol tile.
    * @example "require('./assets/example.png');" for
@@ -32,36 +40,20 @@ export interface SymbolTileData extends HasKey {
    * "{uri: 'https://example.com/remote.jpg'};"
    * for remote images.
    */
-  imageLabelSource: ImageSourcePropType | undefined;
+  imgSrc: ImageSourcePropType;
+  text: undefined;
+}
 
+interface TextLabelOnly {
   /**
-   * Should the image label be shown?
-   * @example false
-   */
-  showImageLabel: boolean;
-
-  /**
-   * The font family for the text label.
-   * @example "arial"
-   */
-  textLabelFontFamily: string;
-
-  /**
-   * The text size for the text label.
-   * @example 12
-   */
-  textLabelFontSize: number;
-
-  /**
-   * The text used for vocalization. If not
-   * defined, textLabel should be used instead.
+   * The text label of this symbol tile.
    * @example "Hello"
    */
-  vocalizationText: string | undefined;
+  text: string;
+  imgSrc: undefined;
+}
 
-  /**
-   * The category in which this symbol tile
-   * belongs to.
-   */
-  category: SymbolTileCategoryKey;
+interface BothImageAndTextLabel {
+  imgSrc: ImageSourcePropType;
+  text: string;
 }
