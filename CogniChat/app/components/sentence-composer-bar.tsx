@@ -43,6 +43,7 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
   const handleSpeak = () => {
     if (sentence.length === 0) return;
     const formedSentence = sentence.map((tile) => tile.vocalization).join(" ");
+    Speech.stop();
     Speech.speak(formedSentence);
   };
 
