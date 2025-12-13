@@ -23,6 +23,7 @@ import uuid from "react-native-uuid";
 interface AACUserSettingsPageProps {}
 
 const TTS_VOICES = ["System Male", "System Female"];
+const SELECT_TAB_PLACEHOLDER = "select_tab_placeholder";
 
 const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
   const {
@@ -47,11 +48,23 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
   const [newButtonImageURL, setNewButtonImageURL] = useState<string>();
   const [newButtonCategory, setNewButtonCategory] =
     useState<SymbolTileCategoryKey>(SymbolTileCategoryKey.other);
-  const [newButtonTab, setNewButtonTab] = useState<string>();
+  const [newButtonTab, setNewButtonTab] = useState<string>(
+    SELECT_TAB_PLACEHOLDER
+  );
+  const [newButtonStatus, setNewButtonStatus] = useState<string>("");
+  const [newButtonError, setNewButtonError] = useState<boolean>(false);
 
   const submitNewButtonForm = () => {
-    if (!newButtonTab) return;
-    if (!newButtonTextLabel) return;
+    if (newButtonTab === SELECT_TAB_PLACEHOLDER) {
+      setNewButtonError(true);
+      setNewButtonStatus("Must select a tab");
+      return;
+    }
+    if (!newButtonTextLabel) {
+      setNewButtonError(true);
+      setNewButtonStatus("Must provide some text");
+      return;
+    }
     const key = uuid.v4();
     addSymbolTile({
       key: key,
@@ -63,6 +76,12 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
       category: Number(newButtonCategory),
     });
     addSymbolTileToTab(newButtonTab, key);
+
+    // clean up
+    setNewButtonError(false);
+    setNewButtonTextLabel("");
+    setNewButtonStatus("Custom button added");
+    setNewButtonTab(SELECT_TAB_PLACEHOLDER);
   };
 
   const toggleShowImageLabels = (v: boolean) => {
@@ -222,7 +241,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
           >
             <Picker.Item
               label="Select a tab..."
-              value={null}
+              value={SELECT_TAB_PLACEHOLDER}
               key="placeholder"
             />
             {Object.values(allTabs).map((tab) => (
@@ -237,6 +256,12 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
             <FontAwesome name="plus" size={20} color="white" />
             <Text style={styles.addCustomBtnText}> Add custom button</Text>
           </TouchableOpacity>
+
+          {newButtonStatus && (
+            <Text style={newButtonError ? styles.error : styles.success}>
+              {newButtonStatus}
+            </Text>
+          )}
         </View>
       </View>
 
@@ -297,6 +322,12 @@ const styles = StyleSheet.create({
   picker: {},
   pickerItem: {
     color: "black",
+  },
+  error: {
+    color: "red",
+  },
+  success: {
+    color: "green",
   },
 });
 
