@@ -1,9 +1,10 @@
-import { FontAwesome } from "@expo/vector-icons";
 import React, { JSX } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SymbolTileData } from "../types/symbol-tile-data";
 import SymbolTile from "./symbol-tile";
 import uuid from "react-native-uuid";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import * as Speech from "expo-speech";
 
 /**
  * @interface SentenceComposerBarProps
@@ -31,28 +32,38 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
   sentence,
   updateSentence,
 }: SentenceComposerBarProps): JSX.Element => {
-  const handlePopSymbol = () => {
-    updateSentence((p) => p.slice(0, -1));
+  const handlePopSymbol = (index: number) => {
+    updateSentence((p) => p.filter((_, i) => i !== index));
   };
 
   const handleClearAllSymbols = () => {
     updateSentence((p) => []);
   };
 
+  const handleSpeak = () => {
+    if (sentence.length === 0) return;
+    const formedSentence = sentence.map((tile) => tile.vocalization).join(" ");
+    Speech.speak(formedSentence);
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.listContainer} horizontal={true}>
-        {sentence.map((tile) => (
-          <View style={[styles.symbol]} key={uuid.v4()}>
+        {sentence.map((tile, index) => (
+          <Pressable
+            style={[styles.symbol]}
+            key={uuid.v4()}
+            onPress={() => handlePopSymbol(index)}
+          >
             <SymbolTile symbolTileData={tile} />
-          </View>
+          </Pressable>
         ))}
       </ScrollView>
-      <Pressable style={styles.popWordButton} onPress={handlePopSymbol}>
-        <FontAwesome name="arrow-left" size={40} color="black" />
+      <Pressable style={styles.popWordButton} onPress={handleSpeak}>
+        <Ionicons name="volume-high" size={40} color="black" />
       </Pressable>
       <Pressable style={styles.popWordButton} onPress={handleClearAllSymbols}>
-        <FontAwesome name="trash" size={40} color="black" />
+        <Ionicons name="trash" size={40} color="black" />
       </Pressable>
     </View>
   );
