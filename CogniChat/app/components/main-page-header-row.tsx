@@ -1,4 +1,4 @@
-import { FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
@@ -10,13 +10,13 @@ export const MainPageHeaderRow = () => {
         style={styles.homeButton}
         onPress={() => router.navigate("../menu")}
       >
-        <FontAwesome name="home" size={40} color="black" />
+        <Ionicons name="home" size={40} color="black" />
       </Pressable>
       <Pressable
         style={styles.settingsButton}
         onPress={() => router.navigate("./components/settings-page")}
       >
-        <FontAwesome name="cog" size={40} color="black" />
+        <Ionicons name="cog" size={40} color="black" />
       </Pressable>
     </View>
   );

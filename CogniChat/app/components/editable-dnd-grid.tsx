@@ -36,6 +36,8 @@ interface DraggablePosition {
  * @property {number} itemWidth - The width of each item in pixels.
  * @property {boolean} isEditMode - False for items to only pressable,
  * true for items to be draggale and deletable.
+ * @property {function} onGridLayout - Callback for when the
+ * grid is rendered and the number of columns has been determined.
  */
 interface EditableDNDGridProps<T extends HasKey> {
   items: T[];
@@ -46,6 +48,7 @@ interface EditableDNDGridProps<T extends HasKey> {
   itemWidth: number;
   itemHeight: number;
   isEditMode: boolean;
+  onGridLayout: (numColumns: number) => void;
 }
 
 /**
@@ -64,6 +67,7 @@ function EditableDNDGrid<T extends HasKey>({
   itemWidth,
   itemHeight,
   isEditMode,
+  onGridLayout,
 }: EditableDNDGridProps<T>) {
   const [centeringOffset, setCenteringOffset] = useState(0);
   const [numColumns, setNumColumns] = useState(1);
@@ -104,6 +108,7 @@ function EditableDNDGrid<T extends HasKey>({
     setNumColumns(cols);
     setNumRows(rows);
     setCenteringOffset(offset);
+    onGridLayout(cols);
   };
 
   const isLoading = containerWidth === 0;
