@@ -1,7 +1,7 @@
 import { SymbolTileData } from "../types/symbol-tile-data";
 import { SymbolTileTabData } from "../types/symbol-tile-tab-data";
 import uuid from "react-native-uuid";
-import { symbolTileBuilder } from "./aac-symbol-tiles-builder";
+import { aacBoardBuilder } from "./aac-board-builder";
 import { SymbolTileCategoryKey } from "../types/symbol-tile-categories";
 
 export function createDefaultAACSymbolTiles(): {
@@ -10,7 +10,7 @@ export function createDefaultAACSymbolTiles(): {
   defaultTabToSymbolTilesMap: Record<string, string[]>;
   defaultTab: string;
 } {
-  const builder = symbolTileBuilder();
+  const builder = aacBoardBuilder();
   builder.createTab("Test");
   builder.createSymbolTile("Test", {
     key: uuid.v4(),

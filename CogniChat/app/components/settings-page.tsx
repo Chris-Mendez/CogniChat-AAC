@@ -19,6 +19,7 @@ import CategoryColorSelector from "./category-color-selector";
 import { enumValuesOf } from "../utils/enum-iterator";
 import { useAACSymbolTilesStore } from "../contexts/aac-symbol-tiles-provider";
 import uuid from "react-native-uuid";
+import { AVAILABLE_CATEGORY_COLORS } from "../constants/default-aac-preferences";
 
 interface AACUserSettingsPageProps {}
 
@@ -185,20 +186,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
           <CategoryColorSelector
             selectedColors={buttonCategoryColors}
             setSelectedColors={setButtonCategoryColors}
-            availableColors={[
-              "#F39D2A",
-              "#23B883",
-              "#4085F3",
-              "#CEC4F7",
-              "#ED4649",
-              "#F7732A",
-              "#AEDEED",
-              "#86CA2E",
-              "#A75CF4",
-              "#EA4C99",
-              "#ffffff",
-              "#000000",
-            ]}
+            availableColors={AVAILABLE_CATEGORY_COLORS}
           />
         </View>
       )}

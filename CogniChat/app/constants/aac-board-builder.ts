@@ -2,7 +2,7 @@ import uuid from "react-native-uuid";
 import { SymbolTileTabData } from "../types/symbol-tile-tab-data";
 import { SymbolTileData } from "../types/symbol-tile-data";
 
-export function symbolTileBuilder() {
+export function aacBoardBuilder() {
   const allTabs: Record<string, SymbolTileTabData> = {};
   const allSymbolTiles: Record<string, SymbolTileData> = {};
   const tabToSymbolTileMap: Record<string, string[]> = {};

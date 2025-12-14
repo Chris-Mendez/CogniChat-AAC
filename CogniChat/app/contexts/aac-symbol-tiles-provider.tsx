@@ -91,20 +91,20 @@ export const AACSymbolTilesProvider: React.FC<{
 }> = ({ children }) => {
   // temporary -- for testing
   // (this is also how you populate the app with data)
+  /*
   const {
     mockAllSymbolTiles: allSymbolTilesData,
     mockAllTabs: allTabsData,
     mockTabToSymbolTilesMap: tabToSymbolTilesMapData,
     mockDefaultTab: defaultTabData,
   } = createMockAACSymbolTiles();
-  /*
+   */
   const {
     defaultAllSymbolTiles: allSymbolTilesData,
     defaultAllTabs: allTabsData,
     defaultTabToSymbolTilesMap: tabToSymbolTilesMapData,
     defaultTab: defaultTabData,
   } = createDefaultAACSymbolTiles();
-   */
 
   const [allSymbolTiles, setAllSymbolTiles] =
     useState<SymbolTileMap>(allSymbolTilesData);

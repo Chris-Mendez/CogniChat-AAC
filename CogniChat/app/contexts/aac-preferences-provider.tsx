@@ -1,5 +1,11 @@
 import React, { createContext, useContext, useState } from "react";
 import { SymbolTileCategoryKey } from "../types/symbol-tile-categories";
+import {
+  DEFAULT_ADJECTIVE_CATEGORY_COLOR,
+  DEFAULT_NOUN_CATEGORY_COLOR,
+  DEFAULT_OTHER_CATEGORY_COLOR,
+  DEFAULT_VERB_CATEGORY_COLOR,
+} from "../constants/default-aac-preferences";
 
 /**
  * Represents the properties of a user's preferences
@@ -111,10 +117,10 @@ export const AACPreferencesProvider: React.FC<{
     Map<SymbolTileCategoryKey, string>
   >(
     new Map<SymbolTileCategoryKey, string>([
-      [SymbolTileCategoryKey.other, "ffffff"],
-      [SymbolTileCategoryKey.noun, "ff6666"],
-      [SymbolTileCategoryKey.adjective, "66cc66"],
-      [SymbolTileCategoryKey.verb, "6699ff"],
+      [SymbolTileCategoryKey.other, DEFAULT_OTHER_CATEGORY_COLOR],
+      [SymbolTileCategoryKey.noun, DEFAULT_NOUN_CATEGORY_COLOR],
+      [SymbolTileCategoryKey.adjective, DEFAULT_ADJECTIVE_CATEGORY_COLOR],
+      [SymbolTileCategoryKey.verb, DEFAULT_VERB_CATEGORY_COLOR],
     ])
   );
 
