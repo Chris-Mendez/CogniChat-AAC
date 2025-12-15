@@ -168,9 +168,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
         <Text style={styles.helper}>Availability depends on your device.</Text>
         <Picker
           selectedValue={ttsVoice ?? PICKER_NONE}
-          onValueChange={(v) => {
-            setTTSVoice(v);
-          }}
+          onValueChange={setTTSVoice}
           style={styles.picker}
           itemStyle={styles.pickerItem}
         >
@@ -182,8 +180,8 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
           {availableTTSVoices.map((voice) => (
             <Picker.Item
               key={voice.identifier}
-              label={voice.name}
-              value={voice.name}
+              label={voice.name + " (" + voice.language + ")"}
+              value={voice.identifier}
             />
           ))}
         </Picker>
