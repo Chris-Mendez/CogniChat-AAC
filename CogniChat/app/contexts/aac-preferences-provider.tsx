@@ -45,11 +45,14 @@ type AACPrefsContextType = {
   setEnableButtonGridAdaption: React.Dispatch<React.SetStateAction<boolean>>;
 
   /**
-   * Voice to use for text-to-speech.
-   * @example "system"
+   * The voice to use for text-to-speech, which is a string key.
+   * Can be undefined, in which case the app should fall back to some
+   * reasonable default voice, dependent on the voices that are actually
+   * available on the user's device.
+   * See {@link setTTSVoice} for the associated updater.
    */
-  ttsVoice: string;
-  setTTSVoice: React.Dispatch<React.SetStateAction<string>>;
+  ttsVoice: string | undefined;
+  setTTSVoice: React.Dispatch<React.SetStateAction<string | undefined>>;
 
   /**
    * Voice volume of the text-to-speech.
@@ -105,7 +108,7 @@ export const AACPreferencesProvider: React.FC<{
     useState<boolean>(true);
   const [enableButtonGridAdaption, setEnableButtonGridAdaption] =
     useState<boolean>(true);
-  const [ttsVoice, setTTSVoice] = useState<string>("default");
+  const [ttsVoice, setTTSVoice] = useState<string | undefined>(undefined);
   const [ttsVolume, setTTSVolume] = useState<number>(50);
   const [showButtonCategoryColors, setShowButtonCategoryColors] =
     useState<boolean>(true);

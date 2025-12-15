@@ -5,6 +5,7 @@ import SymbolTile from "./symbol-tile";
 import uuid from "react-native-uuid";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as Speech from "expo-speech";
+import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
 
 /**
  * @interface SentenceComposerBarProps
@@ -32,6 +33,8 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
   sentence,
   updateSentence,
 }: SentenceComposerBarProps): JSX.Element => {
+  const { ttsVoice } = useAACPreferencesStore();
+
   const handlePopSymbol = (index: number) => {
     updateSentence((p) => p.filter((_, i) => i !== index));
   };
@@ -44,7 +47,7 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
     if (sentence.length === 0) return;
     const formedSentence = sentence.map((tile) => tile.vocalization).join(" ");
     Speech.stop();
-    Speech.speak(formedSentence);
+    Speech.speak(formedSentence, { voice: ttsVoice });
   };
 
   return (

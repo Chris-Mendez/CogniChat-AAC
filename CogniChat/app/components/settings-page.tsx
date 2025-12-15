@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -20,11 +20,12 @@ import { enumValuesOf } from "../utils/enum-iterator";
 import { useAACSymbolTilesStore } from "../contexts/aac-symbol-tiles-provider";
 import uuid from "react-native-uuid";
 import { AVAILABLE_CATEGORY_COLORS } from "../constants/default-aac-preferences";
+import * as Speech from "expo-speech";
+import { resolveValidTTSVoice } from "../utils/resolve-valid-tts-voice";
 
 interface AACUserSettingsPageProps {}
 
-const TTS_VOICES = ["System Male", "System Female"];
-const SELECT_TAB_PLACEHOLDER = "select_tab_placeholder";
+const PICKER_NONE = "undefined";
 
 const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
   const {
@@ -49,14 +50,15 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
   const [newButtonImageURL, setNewButtonImageURL] = useState<string>();
   const [newButtonCategory, setNewButtonCategory] =
     useState<SymbolTileCategoryKey>(SymbolTileCategoryKey.other);
-  const [newButtonTab, setNewButtonTab] = useState<string>(
-    SELECT_TAB_PLACEHOLDER
-  );
+  const [newButtonTab, setNewButtonTab] = useState<string>(PICKER_NONE);
   const [newButtonStatus, setNewButtonStatus] = useState<string>("");
   const [newButtonError, setNewButtonError] = useState<boolean>(false);
+  const [availableTTSVoices, setAvailableTTSVoices] = useState<Speech.Voice[]>(
+    []
+  );
 
   const submitNewButtonForm = () => {
-    if (newButtonTab === SELECT_TAB_PLACEHOLDER) {
+    if (newButtonTab === PICKER_NONE) {
       setNewButtonError(true);
       setNewButtonStatus("Must select a tab");
       return;
@@ -82,7 +84,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
     setNewButtonError(false);
     setNewButtonTextLabel("");
     setNewButtonStatus("Custom button added");
-    setNewButtonTab(SELECT_TAB_PLACEHOLDER);
+    setNewButtonTab(PICKER_NONE);
   };
 
   const toggleShowImageLabels = (v: boolean) => {
@@ -98,6 +100,20 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
     }
     setShowButtonTextLabels(v);
   };
+
+  useEffect(() => {
+    const loadVoices = async () => {
+      try {
+        const availableVoices = await Speech.getAvailableVoicesAsync();
+        const resolvedVoice = resolveValidTTSVoice(availableVoices, ttsVoice);
+        setTTSVoice(resolvedVoice ? resolvedVoice.identifier : undefined);
+        setAvailableTTSVoices(availableVoices);
+      } catch (error) {
+        setTTSVoice(undefined);
+      }
+    };
+    loadVoices();
+  }, []);
 
   return (
     <ScrollView
@@ -151,15 +167,24 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
         <Text style={styles.sectionHeader}>Text-to-Speech Voice</Text>
         <Text style={styles.helper}>Availability depends on your device.</Text>
         <Picker
-          selectedValue={ttsVoice}
+          selectedValue={ttsVoice ?? PICKER_NONE}
           onValueChange={(v) => {
             setTTSVoice(v);
           }}
           style={styles.picker}
           itemStyle={styles.pickerItem}
         >
-          {TTS_VOICES.map((voice) => (
-            <Picker.Item key={voice} label={voice} value={voice} />
+          <Picker.Item
+            label="Select a voice..."
+            value={PICKER_NONE}
+            enabled={false}
+          />
+          {availableTTSVoices.map((voice) => (
+            <Picker.Item
+              key={voice.identifier}
+              label={voice.name}
+              value={voice.name}
+            />
           ))}
         </Picker>
       </View>
@@ -222,15 +247,15 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
           <Text style={styles.sectionHeader}>Tab</Text>
           <Text style={styles.helper}>Required</Text>
           <Picker
-            selectedValue={newButtonTab}
+            selectedValue={newButtonTab ?? PICKER_NONE}
             onValueChange={setNewButtonTab}
             style={styles.picker}
             itemStyle={styles.pickerItem}
           >
             <Picker.Item
               label="Select a tab..."
-              value={SELECT_TAB_PLACEHOLDER}
-              key="placeholder"
+              value={PICKER_NONE}
+              enabled={false}
             />
             {Object.values(allTabs).map((tab) => (
               <Picker.Item label={tab.name} value={tab.key} />
