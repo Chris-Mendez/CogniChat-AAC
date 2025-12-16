@@ -3,9 +3,10 @@ import { SymbolTileData } from "@/app/types/symbol-tile-data";
 import { SymbolTileTabData } from "@/app/types/symbol-tile-tab-data";
 import { randInt } from "@/app/utils/random-integer";
 import { shuffle } from "@/app/utils/shuffle-array";
+import uuid from "react-native-uuid";
 
-const NUMBER_OF_SYMBOL_TILES = 60;
-const NUMBER_OF_TABS = 20;
+const NUMBER_OF_SYMBOL_TILES = 10;
+const NUMBER_OF_TABS = 4;
 
 export function createMockAACSymbolTiles(): {
   mockAllSymbolTiles: Record<string, SymbolTileData>;
@@ -22,7 +23,7 @@ export function createMockAACSymbolTiles(): {
 
   const mockAllTabs: Record<string, SymbolTileTabData> = {};
   for (let i = 0; i < NUMBER_OF_TABS; i++) {
-    const id = `tab-${i + 1}`;
+    const id = uuid.v4();
     mockAllTabs[id] = {
       key: id,
       name: `Tab ${i + 1}`,

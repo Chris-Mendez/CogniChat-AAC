@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -22,6 +22,8 @@ import uuid from "react-native-uuid";
 import { AVAILABLE_CATEGORY_COLORS } from "../constants/default-aac-preferences";
 import * as Speech from "expo-speech";
 import { resolveValidTTSVoice } from "../utils/resolve-valid-tts-voice";
+import { SymbolTileData } from "../types/symbol-tile-data";
+import HiddenButtonsList from "./hidden-buttons-list";
 
 interface AACUserSettingsPageProps {}
 
@@ -43,8 +45,13 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
     setButtonCategoryColors,
   } = useAACPreferencesStore();
 
-  const { allTabs, addSymbolTileToTab, addSymbolTile } =
-    useAACSymbolTilesStore();
+  const {
+    allTabs,
+    allSymbolTiles,
+    addSymbolTileToTab,
+    addSymbolTile,
+    tabToSymbolTilesMap,
+  } = useAACSymbolTilesStore();
 
   const [newButtonTextLabel, setNewButtonTextLabel] = useState<string>("");
   const [newButtonImageURL, setNewButtonImageURL] = useState<string>();
@@ -281,6 +288,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
         <Text style={styles.helper}>
           Restore or permanently delete buttons you've removed.
         </Text>
+        <HiddenButtonsList />
       </View>
     </ScrollView>
   );
