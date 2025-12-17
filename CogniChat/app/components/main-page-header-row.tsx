@@ -16,7 +16,7 @@ export const MainPageHeaderRow = () => {
         style={styles.settingsButton}
         onPress={() => router.navigate("./components/settings-page")}
       >
-        <Ionicons name="cog" size={40} color="black" />
+        <Ionicons name="settings" size={40} color="black" />
       </Pressable>
     </View>
   );

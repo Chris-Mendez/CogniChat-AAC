@@ -6,6 +6,7 @@ import * as Speech from "expo-speech";
  * @param targetVoice - The desired voice identifier.
  * @returns targetVoice if the voice is available, else the
  * first English voice, and as a fall back the first available voice.
+ * Returns undefined if availableVoices is empty.
  */
 export function resolveValidTTSVoice(
   availableVoices: Speech.Voice[],

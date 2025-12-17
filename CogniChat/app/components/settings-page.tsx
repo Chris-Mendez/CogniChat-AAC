@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -14,16 +14,14 @@ import {
   SymbolTileCategoryKey,
   SymbolTileCategoryProperties,
 } from "../types/symbol-tile-categories";
-import { FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import CategoryColorSelector from "./category-color-selector";
 import { enumValuesOf } from "../utils/enum-iterator";
 import { useAACSymbolTilesStore } from "../contexts/aac-symbol-tiles-provider";
-import uuid from "react-native-uuid";
 import { AVAILABLE_CATEGORY_COLORS } from "../constants/default-aac-preferences";
-import * as Speech from "expo-speech";
-import { resolveValidTTSVoice } from "../utils/resolve-valid-tts-voice";
-import { SymbolTileData } from "../types/symbol-tile-data";
 import HiddenButtonsList from "./hidden-buttons-list";
+import createUniqueKey from "../utils/create-unique-key";
+import TTSVoiceSelector from "./tts-voice-selector";
 
 interface AACUserSettingsPageProps {}
 
@@ -37,32 +35,21 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
     setShowButtonImageLabels,
     showButtonTextLabels,
     setShowButtonTextLabels,
-    ttsVoice,
-    setTTSVoice,
     showButtonCategoryColors,
     setShowButtonCategoryColors,
     buttonCategoryColors,
     setButtonCategoryColors,
   } = useAACPreferencesStore();
 
-  const {
-    allTabs,
-    allSymbolTiles,
-    addSymbolTileToTab,
-    addSymbolTile,
-    tabToSymbolTilesMap,
-  } = useAACSymbolTilesStore();
+  const { allTabs, addSymbolTileToTab, addSymbolTile } =
+    useAACSymbolTilesStore();
 
   const [newButtonTextLabel, setNewButtonTextLabel] = useState<string>("");
-  const [newButtonImageURL, setNewButtonImageURL] = useState<string>();
   const [newButtonCategory, setNewButtonCategory] =
     useState<SymbolTileCategoryKey>(SymbolTileCategoryKey.other);
   const [newButtonTab, setNewButtonTab] = useState<string>(PICKER_NONE);
   const [newButtonStatus, setNewButtonStatus] = useState<string>("");
   const [newButtonError, setNewButtonError] = useState<boolean>(false);
-  const [availableTTSVoices, setAvailableTTSVoices] = useState<Speech.Voice[]>(
-    []
-  );
 
   const submitNewButtonForm = () => {
     if (newButtonTab === PICKER_NONE) {
@@ -75,7 +62,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
       setNewButtonStatus("Must provide some text");
       return;
     }
-    const key = uuid.v4();
+    const key = createUniqueKey();
     addSymbolTile({
       key: key,
       labelling: {
@@ -107,20 +94,6 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
     }
     setShowButtonTextLabels(v);
   };
-
-  useEffect(() => {
-    const loadVoices = async () => {
-      try {
-        const availableVoices = await Speech.getAvailableVoicesAsync();
-        const resolvedVoice = resolveValidTTSVoice(availableVoices, ttsVoice);
-        setTTSVoice(resolvedVoice ? resolvedVoice.identifier : undefined);
-        setAvailableTTSVoices(availableVoices);
-      } catch (error) {
-        setTTSVoice(undefined);
-      }
-    };
-    loadVoices();
-  }, []);
 
   return (
     <ScrollView
@@ -173,25 +146,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
       <View style={styles.section}>
         <Text style={styles.sectionHeader}>Text-to-Speech Voice</Text>
         <Text style={styles.helper}>Availability depends on your device.</Text>
-        <Picker
-          selectedValue={ttsVoice ?? PICKER_NONE}
-          onValueChange={setTTSVoice}
-          style={styles.picker}
-          itemStyle={styles.pickerItem}
-        >
-          <Picker.Item
-            label="Select a voice..."
-            value={PICKER_NONE}
-            enabled={false}
-          />
-          {availableTTSVoices.map((voice) => (
-            <Picker.Item
-              key={voice.identifier}
-              label={voice.name + " (" + voice.language + ")"}
-              value={voice.identifier}
-            />
-          ))}
-        </Picker>
+        <TTSVoiceSelector />
       </View>
 
       <View style={styles.section}>
@@ -271,7 +226,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
             onPress={submitNewButtonForm}
             style={styles.addCustomBtn}
           >
-            <FontAwesome name="plus" size={20} color="white" />
+            <Ionicons name="add" size={22} color="white" />
             <Text style={styles.addCustomBtnText}> Add custom button</Text>
           </TouchableOpacity>
 
@@ -330,6 +285,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 10,
     justifyContent: "center",
+    alignItems: "center",
     color: "white",
     marginTop: 10,
   },
@@ -338,7 +294,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
-  picker: {},
+  picker: { width: 300 },
   pickerItem: {
     color: "black",
   },

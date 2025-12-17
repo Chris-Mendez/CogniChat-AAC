@@ -11,7 +11,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { scheduleOnRN } from "react-native-worklets";
 import { HasKey } from "@/app/types/has-key";
 
@@ -23,8 +23,7 @@ interface DraggablePosition {
 /**
  * @interface EditableDNDGridProps
  *
- * @property {T[]} items - The actual items, which are assumed to
- * be ordered by index.
+ * @property {T[]} items - The actual items, ordered by index.
  * @property {function} renderItem - Callback to render an item.
  * @property {function} onDeleteItem - Callback for when an item is
  * deleted, which can only happen when isEditMode is true.
@@ -52,11 +51,11 @@ interface EditableDNDGridProps<T extends HasKey> {
 }
 
 /**
- * The guiding philosophy behind this component is that we're given
- * an ordered array of items and a variably sized container that we
- * don't know the dimensions of until it's rendered. This component
- * tries to fill in the container with as many as those items as
- * possible. It uses absolute positioning and reanimated.
+ * The idea behind this component is that it's given an ordered
+ * array of an arbitary number of items and a variably sized container
+ * that it doesn't know the dimensions of until it's rendered. This component
+ * then tries to fill in the container with as many as the items as
+ * possible per row. It uses absolute positioning and reanimated to achieve this.
  */
 function EditableDNDGrid<T extends HasKey>({
   items,
@@ -291,7 +290,7 @@ function DraggableItem<T>({
                 style={styles.deleteButton}
                 hitSlop={10}
               >
-                <FontAwesome name="close" size={12} color="white" />
+                <Ionicons name="close" size={22} color="white" />
               </Pressable>
             )}
           </View>
@@ -320,8 +319,8 @@ const styles = StyleSheet.create({
     top: 4,
     right: 4,
     backgroundColor: "rgba(255, 50, 50, 0.9)",
-    width: 24,
-    height: 24,
+    width: 34,
+    height: 34,
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",

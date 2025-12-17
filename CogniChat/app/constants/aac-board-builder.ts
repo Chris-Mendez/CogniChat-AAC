@@ -1,6 +1,6 @@
-import uuid from "react-native-uuid";
 import { SymbolTileTabData } from "../types/symbol-tile-tab-data";
 import { SymbolTileData } from "../types/symbol-tile-data";
+import createUniqueKey from "../utils/create-unique-key";
 
 export function aacBoardBuilder() {
   const allTabs: Record<string, SymbolTileTabData> = {};
@@ -8,7 +8,7 @@ export function aacBoardBuilder() {
   const tabToSymbolTileMap: Record<string, string[]> = {};
 
   function createTab(name: string): SymbolTileTabData {
-    const tab: SymbolTileTabData = { key: uuid.v4(), name };
+    const tab: SymbolTileTabData = { key: createUniqueKey(), name };
     allTabs[tab.key] = tab;
     tabToSymbolTileMap[tab.key] = [];
     return tab;

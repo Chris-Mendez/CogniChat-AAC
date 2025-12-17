@@ -1,10 +1,10 @@
+import createUniqueKey from "@/app/utils/create-unique-key";
 import { SymbolTileCategoryKey } from "../symbol-tile-categories";
 import { SymbolTileData } from "../symbol-tile-data";
-import uuid from "react-native-uuid";
 
 export function createMockSymbolTile(): SymbolTileData {
   return {
-    key: uuid.v4(),
+    key: createUniqueKey(),
     vocalization: "Tile",
     category: SymbolTileCategoryKey.other,
     labelling: {

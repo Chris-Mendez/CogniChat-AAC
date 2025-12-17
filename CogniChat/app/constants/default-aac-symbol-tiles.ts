@@ -1,8 +1,8 @@
 import { SymbolTileData } from "../types/symbol-tile-data";
 import { SymbolTileTabData } from "../types/symbol-tile-tab-data";
-import uuid from "react-native-uuid";
 import { aacBoardBuilder } from "./aac-board-builder";
 import { SymbolTileCategoryKey } from "../types/symbol-tile-categories";
+import createUniqueKey from "../utils/create-unique-key";
 
 export function createDefaultAACSymbolTiles(): {
   defaultAllSymbolTiles: Record<string, SymbolTileData>;
@@ -13,7 +13,7 @@ export function createDefaultAACSymbolTiles(): {
   const builder = aacBoardBuilder();
   builder.createTab("Test");
   builder.createSymbolTile("Test", {
-    key: uuid.v4(),
+    key: createUniqueKey(),
     labelling: {
       text: "Yes",
       imgSrc: require("../assets/yes.svg"),
@@ -22,7 +22,7 @@ export function createDefaultAACSymbolTiles(): {
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile("Test", {
-    key: uuid.v4(),
+    key: createUniqueKey(),
     labelling: {
       text: "No",
       imgSrc: require("../assets/no.svg"),
@@ -31,9 +31,45 @@ export function createDefaultAACSymbolTiles(): {
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile("Test", {
-    key: uuid.v4(),
+    key: createUniqueKey(),
     labelling: {
       text: "Want",
+      imgSrc: require("../assets/want.jpg"),
+    },
+    vocalization: "Want",
+    category: SymbolTileCategoryKey.other,
+  });
+  builder.createSymbolTile("Test", {
+    key: createUniqueKey(),
+    labelling: {
+      text: "Want",
+      imgSrc: require("../assets/want.jpg"),
+    },
+    vocalization: "Want",
+    category: SymbolTileCategoryKey.other,
+  });
+  builder.createSymbolTile("Test", {
+    key: createUniqueKey(),
+    labelling: {
+      text: "Want",
+      imgSrc: require("../assets/want.jpg"),
+    },
+    vocalization: "Want",
+    category: SymbolTileCategoryKey.other,
+  });
+  builder.createSymbolTile("Test", {
+    key: createUniqueKey(),
+    labelling: {
+      text: "Want",
+      imgSrc: require("../assets/want.jpg"),
+    },
+    vocalization: "Want",
+    category: SymbolTileCategoryKey.other,
+  });
+  builder.createSymbolTile("Test", {
+    key: createUniqueKey(),
+    labelling: {
+      text: undefined,
       imgSrc: require("../assets/want.jpg"),
     },
     vocalization: "Want",

@@ -2,10 +2,10 @@ import React, { JSX } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SymbolTileData } from "../types/symbol-tile-data";
 import SymbolTile from "./symbol-tile";
-import uuid from "react-native-uuid";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as Speech from "expo-speech";
 import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
+import { Instanced } from "../types/instanced";
 
 /**
  * @interface SentenceComposerBarProps
@@ -16,8 +16,10 @@ import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
  * sentence is modified and should be re-rendered.
  */
 interface SentenceComposerBarProps {
-  sentence: SymbolTileData[];
-  updateSentence: React.Dispatch<React.SetStateAction<SymbolTileData[]>>;
+  sentence: Instanced<SymbolTileData>[];
+  updateSentence: React.Dispatch<
+    React.SetStateAction<Instanced<SymbolTileData>[]>
+  >;
 }
 
 /**
@@ -40,12 +42,14 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
   };
 
   const handleClearAllSymbols = () => {
-    updateSentence((p) => []);
+    updateSentence((_) => []);
   };
 
   const handleSpeak = () => {
     if (sentence.length === 0) return;
-    const formedSentence = sentence.map((tile) => tile.vocalization).join(" ");
+    const formedSentence = sentence
+      .map((tile) => tile.value.vocalization)
+      .join(" ");
     Speech.stop();
     Speech.speak(formedSentence, { voice: ttsVoice });
   };
@@ -53,13 +57,13 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
   return (
     <View style={styles.container}>
       <ScrollView style={styles.listContainer} horizontal={true}>
-        {sentence.map((tile, index) => (
+        {sentence.map((item, index) => (
           <Pressable
+            key={item.instanceKey}
             style={[styles.symbol]}
-            key={uuid.v4()}
             onPress={() => handlePopSymbol(index)}
           >
-            <SymbolTile symbolTileData={tile} />
+            <SymbolTile symbolTileData={item.value} hideCategoryColor={true} />
           </Pressable>
         ))}
       </ScrollView>
@@ -77,22 +81,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
-    alignItems: "center",
+    padding: 5,
   },
   listContainer: {
     flex: 1,
     backgroundColor: "white",
     borderRadius: 10,
-    borderWidth: 0,
     height: "100%",
-    paddingVertical: 5,
   },
   listContent: {
     alignItems: "center",
   },
   symbol: {
-    width: 70,
-    height: 70,
+    aspectRatio: 1,
+    alignSelf: "stretch",
   },
   popWordButton: {
     width: 100,

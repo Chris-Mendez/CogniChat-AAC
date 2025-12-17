@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#7E2F8D",
     height: 120,
-    padding: 10,
   },
 });
 

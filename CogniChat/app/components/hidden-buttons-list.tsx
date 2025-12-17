@@ -17,7 +17,7 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
     deleteSymbolTile,
   } = useAACSymbolTilesStore();
 
-  // save the states of the dropdown menus for selection the tab individually for each button
+  // save the states of the tab selections individually for each hidden button
   const [pickerSelections, setPickerSelections] = useState<
     Record<string, string>
   >({});
@@ -29,7 +29,7 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
   };
 
   // collect all symbol tiles that aren't in any of the tabs
-  // (these are considered the "hidden buttons")
+  // (these are the "hidden buttons")
   const hiddenButtons = useMemo<string[]>(() => {
     const keysToExclude: string[] = Object.values(tabToSymbolTilesMap).flat();
     const excludedSet: Set<string> = new Set(keysToExclude);
@@ -40,7 +40,7 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
     return filteredKeys;
   }, [allSymbolTiles, tabToSymbolTilesMap]);
 
-  // handlers for restoring or permanently deleting each hidden symbol tile
+  // handlers for restoring or permanently deleting each hidden button
   const handleRestore = (tileKey: string) => {
     const tabKey = pickerSelections[tileKey];
     if (!tabKey || tabKey === NO_SELECTION) return;
@@ -55,9 +55,12 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
       {Object.entries(hiddenButtons).map(([_, key]) => {
         const selectedPickerKey = pickerSelections[key] ?? NO_SELECTION;
         return (
-          <View style={styles.entry}>
+          <View style={styles.entry} key={key}>
             <View style={styles.preview}>
-              <SymbolTile symbolTileData={allSymbolTiles[key]} />
+              <SymbolTile
+                symbolTileData={allSymbolTiles[key]}
+                hideCategoryColor={true}
+              />
             </View>
             <Picker
               selectedValue={selectedPickerKey}
@@ -95,12 +98,15 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
           </View>
         );
       })}
+      {hiddenButtons.length === 0 && (
+        <Text>You do not any removed buttons.</Text>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  picker: {},
+  picker: { width: 300 },
   pickerItem: {
     color: "black",
   },
@@ -109,8 +115,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   preview: {
-    width: 70,
-    height: 70,
+    width: 90,
+    height: 90,
   },
   restore: {
     backgroundColor: "#7ab0f7ff",

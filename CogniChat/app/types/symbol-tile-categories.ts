@@ -1,9 +1,9 @@
 /**
  * @remarks
  * Categories are hardcoded; users cannot add or remove them.
- * See {@link SymbolTileCategoryProperties} for properties associated
- * with each key. See {@link SymbolTileCategoryKeyDetails} for the
- * properteries available.
+ * See {@link SymbolTileCategoryProperties} and
+ * {@link SymbolTileCategoryKeyDetails} for the properties
+ * associated with each key/category.
  */
 export enum SymbolTileCategoryKey {
   other,

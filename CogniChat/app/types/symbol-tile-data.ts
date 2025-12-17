@@ -3,31 +3,26 @@ import { HasKey } from "@/app/types/has-key";
 import { SymbolTileCategoryKey } from "@/app/types/symbol-tile-categories";
 
 /**
- * @remarks
  * This interface defines the important properties of a
- * symbol tile, which is essentially just an image and
- * some text. I believe it's a good idea to
- * make this abstraction so that symbol tiles can be
- * reused throughout the application. For example, symbol
- * tiles are used in both the symbol tile grid and
- * sentence bar composor.
+ * symbol tile. A symbol tile can be thought of as a button
+ * with an image and/or text label.
  */
 export interface SymbolTileData extends HasKey {
   /**
-   * The labels for this symbol tile. Must
-   * be
+   * The labelling for this symbol tile. It can have only
+   * an image or only text or both an image and text but
+   * never neither.
    */
   labelling: ImageLabelOnly | TextLabelOnly | BothImageAndTextLabel;
 
   /**
-   * The text used for text-to-speech.
+   * The actual text used for text-to-speech.
    * @example "Hello"
    */
   vocalization: string;
 
   /**
-   * The category in which this symbol tile
-   * belongs to.
+   * The category in which this symbol tile belongs to.
    */
   category: SymbolTileCategoryKey;
 }

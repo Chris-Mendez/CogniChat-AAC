@@ -1,7 +1,9 @@
 import React, { JSX } from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { SymbolTileData } from "../types/symbol-tile-data";
 import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
+import { Image } from "expo-image";
+import { getContrastYIQ } from "../utils/color-helper";
 
 /**
  * @interface SymbolTileProps
@@ -10,6 +12,7 @@ import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
  */
 interface SymbolTileProps {
   symbolTileData: SymbolTileData;
+  hideCategoryColor?: boolean;
 }
 
 /**
@@ -20,6 +23,7 @@ interface SymbolTileProps {
  */
 export const SymbolTile: React.FC<SymbolTileProps> = ({
   symbolTileData,
+  hideCategoryColor = false,
 }: SymbolTileProps): JSX.Element => {
   const {
     buttonCategoryColors,
@@ -29,81 +33,77 @@ export const SymbolTile: React.FC<SymbolTileProps> = ({
     showButtonTextLabels,
   } = useAACPreferencesStore();
 
-  // First, prepare the visuals for the image label and text label,
-  // including the cases when there's both or neither.
-  const imageLabelComponent = (
-    <Image source={symbolTileData.labelling.imgSrc} style={styles.imageLabel} />
-  );
-  const textLabelComponent = (
-    <Text
-      style={[
-        styles.textLabel,
-        {
-          fontSize: Number(buttonDefaultFontSize),
-        },
-      ]}
-      numberOfLines={1}
-    >
-      {symbolTileData.labelling.text}
-    </Text>
-  );
-  const bothLabelComponent = (
-    <>
-      <View style={{ height: "80%", width: "80%" }}>{imageLabelComponent}</View>
-      {textLabelComponent}
-    </>
-  );
-  const neitherLabelComponent = <Text>Error</Text>;
+  const doImage = showButtonImageLabels && symbolTileData.labelling.imgSrc;
 
-  // Then, determine which labels should be shown based on the data
-  // of the symbol tile.
-  let hasImageLabel = symbolTileData.labelling.imgSrc != undefined;
-  let hasTextLabel = symbolTileData.labelling.text != undefined;
-  let showImageLabel = hasImageLabel && showButtonImageLabels;
-  let showTextLabel = hasTextLabel && showButtonTextLabels;
-  let content;
-  if (showImageLabel && showTextLabel) {
-    content = bothLabelComponent;
-  } else if (showImageLabel) {
-    content = imageLabelComponent;
-  } else if (showTextLabel) {
-    content = textLabelComponent;
-  } else {
-    content = neitherLabelComponent;
-  }
+  let textToRender: string | undefined =
+    symbolTileData.labelling.text ?? symbolTileData.vocalization;
+  if (doImage && !showButtonTextLabels) textToRender = undefined;
 
-  // Finally, render everything.
+  const bgColor =
+    showButtonCategoryColors && !hideCategoryColor
+      ? buttonCategoryColors.get(symbolTileData.category) ?? "#ffffff"
+      : "#ffffff";
+
   return (
     <View
       style={[
         styles.container,
-        {
-          backgroundColor: showButtonCategoryColors
-            ? buttonCategoryColors.get(symbolTileData.category)
-            : "#ffffff",
-        },
+        !doImage && styles.withoutImage,
+        { backgroundColor: bgColor },
       ]}
     >
-      {content}
+      {doImage && (
+        <View style={styles.imageContainer}>
+          <Image
+            source={symbolTileData.labelling.imgSrc}
+            style={styles.image}
+            contentFit="cover"
+          />
+        </View>
+      )}
+
+      {textToRender && (
+        <View style={styles.textContainer}>
+          <Text
+            style={[
+              styles.text,
+              {
+                fontSize: Number(buttonDefaultFontSize),
+                color: getContrastYIQ(bgColor),
+              },
+            ]}
+            numberOfLines={doImage ? 1 : 3}
+          >
+            {textToRender}
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
+    flex: 1,
+    overflow: "hidden",
     alignItems: "center",
-    width: "100%",
-    height: "100%",
   },
-  imageLabel: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "contain",
+  textContainer: {
+    alignItems: "center",
   },
-  textLabel: {
-    textAlign: "center",
-    textAlignVertical: "center",
+  text: {
+    paddingHorizontal: 6,
+    paddingBottom: 4,
+  },
+  withoutImage: {
+    justifyContent: "center",
+  },
+  image: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  imageContainer: {
+    flex: 1,
+    width: "100%",
   },
 });
 

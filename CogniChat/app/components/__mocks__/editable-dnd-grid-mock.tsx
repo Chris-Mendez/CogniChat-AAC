@@ -2,14 +2,14 @@ import React, { JSX, useState } from "react";
 import { Text, View } from "react-native";
 import EditableDNDGrid from "@/app/components/editable-dnd-grid";
 import { HasKey } from "@/app/types/has-key";
-import uuid from "react-native-uuid";
+import createUniqueKey from "@/app/utils/create-unique-key";
 
 interface TestItem extends HasKey {}
 
 export const EditableDNDGridMock = () => {
   const default_items: TestItem[] = [];
   for (let i = 0; i < 100; i++) {
-    default_items.push({ key: uuid.v4() });
+    default_items.push({ key: createUniqueKey() });
   }
 
   const [items, setItems] = useState(default_items);
@@ -47,6 +47,7 @@ export const EditableDNDGridMock = () => {
           itemWidth={120}
           itemHeight={120}
           isEditMode={true}
+          onGridLayout={() => {}}
         />
       </View>
     </>

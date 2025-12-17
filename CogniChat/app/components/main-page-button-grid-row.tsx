@@ -12,6 +12,7 @@ import EditableDNDGrid from "./editable-dnd-grid";
 import { SymbolTileData } from "../types/symbol-tile-data";
 import SymbolTile from "./symbol-tile";
 import { Ionicons } from "@expo/vector-icons";
+import createUniqueKey from "../utils/create-unique-key";
 
 export const MainPageButtonGridRow = () => {
   const {
@@ -45,7 +46,13 @@ export const MainPageButtonGridRow = () => {
   };
 
   const doPressItem = (tile: SymbolTileData) => {
-    setSentence((p) => [...p, tile]);
+    setSentence((p) => [
+      ...p,
+      {
+        instanceKey: createUniqueKey(),
+        value: tile,
+      },
+    ]);
   };
 
   const doFlipGrid = () => {

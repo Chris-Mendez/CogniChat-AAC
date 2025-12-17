@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import {
   SymbolTileCategoryKey,
   SymbolTileCategoryProperties,
@@ -86,14 +86,14 @@ const CategoryColorSelector: React.FC<CategoryColorSelectorProps> = ({
                     ]}
                   >
                     {isSelected && (
-                      <FontAwesome
-                        name="check"
-                        size={12}
+                      <Ionicons
+                        name="checkmark"
+                        size={22}
                         color={getContrastYIQ(color)}
                       />
                     )}
                     {isTaken && (
-                      <FontAwesome name="close" size={12} color="#888" />
+                      <Ionicons name="close" size={22} color="#888" />
                     )}
                   </TouchableOpacity>
                 );

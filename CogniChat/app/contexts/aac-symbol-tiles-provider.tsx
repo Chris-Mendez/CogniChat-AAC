@@ -9,6 +9,7 @@ import { SymbolTileData } from "../types/symbol-tile-data";
 import { SymbolTileTabData } from "../types/symbol-tile-tab-data";
 import { createMockAACSymbolTiles } from "./__mocks__/aac-symbol-tiles-mock";
 import { createDefaultAACSymbolTiles } from "../constants/default-aac-symbol-tiles";
+import { Instanced } from "../types/instanced";
 
 type SymbolTileMap = Record<string, SymbolTileData>;
 type TabMap = Record<string, SymbolTileTabData>;
@@ -78,8 +79,10 @@ type AACSymbolTilesContextType = {
    * Represents the ordered array of symbol tiles that were added
    * and are currently active inside the sentence composer bar.
    */
-  sentence: SymbolTileData[];
-  setSentence: React.Dispatch<React.SetStateAction<SymbolTileData[]>>;
+  sentence: Instanced<SymbolTileData>[];
+  setSentence: React.Dispatch<
+    React.SetStateAction<Instanced<SymbolTileData>[]>
+  >;
 };
 
 const AACSymbolTilesContext = createContext<
@@ -91,20 +94,20 @@ export const AACSymbolTilesProvider: React.FC<{
 }> = ({ children }) => {
   // temporary -- for testing
   // (this is also how you populate the app with data)
+  /*
   const {
     mockAllSymbolTiles: allSymbolTilesData,
     mockAllTabs: allTabsData,
     mockTabToSymbolTilesMap: tabToSymbolTilesMapData,
     mockDefaultTab: defaultTabData,
   } = createMockAACSymbolTiles();
-  /*
+   */
   const {
     defaultAllSymbolTiles: allSymbolTilesData,
     defaultAllTabs: allTabsData,
     defaultTabToSymbolTilesMap: tabToSymbolTilesMapData,
     defaultTab: defaultTabData,
   } = createDefaultAACSymbolTiles();
-   */
 
   const [allSymbolTiles, setAllSymbolTiles] =
     useState<SymbolTileMap>(allSymbolTilesData);
@@ -112,7 +115,7 @@ export const AACSymbolTilesProvider: React.FC<{
   const [tabToSymbolTilesMap, setTabToSymbolTilesMap] =
     useState<TabToSymbolTilesMap>(tabToSymbolTilesMapData);
   const [activeTabId, setActiveTabId] = useState<string>(defaultTabData);
-  const [sentence, setSentence] = useState<SymbolTileData[]>([]);
+  const [sentence, setSentence] = useState<Instanced<SymbolTileData>[]>([]);
 
   const activeTabSymbolTiles = useMemo(() => {
     if (!activeTabId) return [];
