@@ -18,7 +18,10 @@ import { Ionicons } from "@expo/vector-icons";
 import CategoryColorSelector from "./category-color-selector";
 import { enumValuesOf } from "../utils/enum-iterator";
 import { useAACSymbolTilesStore } from "../contexts/aac-symbol-tiles-provider";
-import { AVAILABLE_CATEGORY_COLORS } from "../constants/default-aac-preferences";
+import {
+  AVAILABLE_CATEGORY_COLORS,
+  AVAILABLE_FONT_SIZES,
+} from "../constants/default-aac-preferences";
 import HiddenButtonsList from "./hidden-buttons-list";
 import createUniqueKey from "../utils/create-unique-key";
 import TTSVoiceSelector from "./tts-voice-selector";
@@ -115,9 +118,9 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
           style={styles.picker}
           itemStyle={styles.pickerItem}
         >
-          <Picker.Item label={"Small"} value={14} key={14} />
-          <Picker.Item label={"Medium"} value={22} key={22} />
-          <Picker.Item label={"Large"} value={32} key={32} />
+          {Object.entries(AVAILABLE_FONT_SIZES).map(([key, name]) => (
+            <Picker.Item label={name} value={key} key={key} />
+          ))}
         </Picker>
       </View>
 
@@ -126,9 +129,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
         <Text style={styles.helper}>Should buttons have images?</Text>
         <Switch
           value={showButtonImageLabels}
-          onValueChange={(v) => {
-            toggleShowImageLabels(v);
-          }}
+          onValueChange={toggleShowImageLabels}
         />
       </View>
 
@@ -137,9 +138,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
         <Text style={styles.helper}>Should buttons have text?</Text>
         <Switch
           value={showButtonTextLabels}
-          onValueChange={(v) => {
-            toggleShowTextLabels(v);
-          }}
+          onValueChange={toggleShowTextLabels}
         />
       </View>
 

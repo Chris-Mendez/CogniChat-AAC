@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import { SymbolTileCategoryKey } from "../types/symbol-tile-categories";
 import {
   DEFAULT_ADJECTIVE_CATEGORY_COLOR,
+  DEFAULT_FONT_SIZE,
   DEFAULT_NOUN_CATEGORY_COLOR,
   DEFAULT_OTHER_CATEGORY_COLOR,
   DEFAULT_VERB_CATEGORY_COLOR,
@@ -101,7 +102,7 @@ export const AACPreferencesProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [buttonDefaultFontSize, setButtonDefaultFontSize] =
-    useState<number>(16);
+    useState<number>(DEFAULT_FONT_SIZE);
   const [buttonDefaultFontFamily, setButtonDefaultFontFamily] =
     useState<string>("system-ui");
   const [enableSentencePrediction, setEnableSentencePrediction] =
