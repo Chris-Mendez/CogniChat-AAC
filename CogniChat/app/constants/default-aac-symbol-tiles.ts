@@ -11,8 +11,10 @@ export function createDefaultAACSymbolTiles(): {
   defaultTab: string;
 } {
   const builder = aacBoardBuilder();
-  builder.createTab("Test");
-  builder.createSymbolTile("Test", {
+  builder.createTab("Test tab 1");
+  builder.createTab("Test tab 2");
+  builder.createTab("Test tab 3");
+  builder.createSymbolTile(["Test tab 1", "Test tab 2"], {
     key: createUniqueKey(),
     labelling: {
       text: "Yes",
@@ -21,7 +23,7 @@ export function createDefaultAACSymbolTiles(): {
     vocalization: "Yes",
     category: SymbolTileCategoryKey.other,
   });
-  builder.createSymbolTile("Test", {
+  builder.createSymbolTile(["Test tab 1", "Test tab 2"], {
     key: createUniqueKey(),
     labelling: {
       text: "No",
@@ -30,7 +32,7 @@ export function createDefaultAACSymbolTiles(): {
     vocalization: "No",
     category: SymbolTileCategoryKey.other,
   });
-  builder.createSymbolTile("Test", {
+  builder.createSymbolTile(["Test tab 1", "Test tab 2"], {
     key: createUniqueKey(),
     labelling: {
       text: "Want",
@@ -39,40 +41,85 @@ export function createDefaultAACSymbolTiles(): {
     vocalization: "Want",
     category: SymbolTileCategoryKey.other,
   });
-  builder.createSymbolTile("Test", {
+  builder.createSymbolTile(["Test tab 3"], {
     key: createUniqueKey(),
     labelling: {
-      text: "Want",
-      imgSrc: require("../assets/want.jpg"),
+      text: "1",
+      imgSrc: undefined,
     },
-    vocalization: "Want",
+    vocalization: "One",
     category: SymbolTileCategoryKey.other,
   });
-  builder.createSymbolTile("Test", {
+  builder.createSymbolTile(["Test tab 3"], {
     key: createUniqueKey(),
     labelling: {
-      text: "Want",
-      imgSrc: require("../assets/want.jpg"),
+      text: "2",
+      imgSrc: undefined,
     },
-    vocalization: "Want",
+    vocalization: "Two",
     category: SymbolTileCategoryKey.other,
   });
-  builder.createSymbolTile("Test", {
+  builder.createSymbolTile(["Test tab 3"], {
     key: createUniqueKey(),
     labelling: {
-      text: "Want",
-      imgSrc: require("../assets/want.jpg"),
+      text: "3",
+      imgSrc: undefined,
     },
-    vocalization: "Want",
+    vocalization: "Three",
     category: SymbolTileCategoryKey.other,
   });
-  builder.createSymbolTile("Test", {
+  builder.createSymbolTile(["Test tab 3"], {
     key: createUniqueKey(),
     labelling: {
-      text: undefined,
-      imgSrc: require("../assets/want.jpg"),
+      text: "4",
+      imgSrc: undefined,
     },
-    vocalization: "Want",
+    vocalization: "Four",
+    category: SymbolTileCategoryKey.other,
+  });
+  builder.createSymbolTile(["Test tab 3"], {
+    key: createUniqueKey(),
+    labelling: {
+      text: "5",
+      imgSrc: undefined,
+    },
+    vocalization: "Five",
+    category: SymbolTileCategoryKey.other,
+  });
+  builder.createSymbolTile(["Test tab 3"], {
+    key: createUniqueKey(),
+    labelling: {
+      text: "6",
+      imgSrc: undefined,
+    },
+    vocalization: "Six",
+    category: SymbolTileCategoryKey.other,
+  });
+  builder.createSymbolTile(["Test tab 3"], {
+    key: createUniqueKey(),
+    labelling: {
+      text: "7",
+      imgSrc: undefined,
+    },
+    vocalization: "Seven",
+    category: SymbolTileCategoryKey.other,
+  });
+  builder.createSymbolTile(["Test tab 3"], {
+    key: createUniqueKey(),
+    labelling: {
+      text: "8",
+      imgSrc: undefined,
+    },
+    vocalization: "Eight",
+    category: SymbolTileCategoryKey.other,
+  });
+  builder.createSymbolTile(["Test tab 3"], {
+    key: createUniqueKey(),
+    labelling: {
+      text: "9",
+      imgSrc: undefined,
+    },
+    vocalization: "Nine",
     category: SymbolTileCategoryKey.other,
   });
 

@@ -15,18 +15,20 @@ export function aacBoardBuilder() {
   }
 
   function createSymbolTile(
-    tabName: string,
+    tabName: string[],
     data: SymbolTileData
   ): SymbolTileData {
-    const tabKey = Object.entries(allTabs)
-      .filter(([_, tab]) => {
-        return tab.name === tabName;
-      })
-      .map(([key, _]) => {
-        return key;
-      })[0];
     allSymbolTiles[data.key] = data;
-    tabToSymbolTileMap[tabKey].push(data.key);
+    for (let i = 0; i < tabName.length; i++) {
+      const tabKey = Object.entries(allTabs)
+        .filter(([_, tab]) => {
+          return tab.name === tabName[i];
+        })
+        .map(([key, _]) => {
+          return key;
+        })[0];
+      tabToSymbolTileMap[tabKey].push(data.key);
+    }
     return data;
   }
 
