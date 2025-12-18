@@ -199,6 +199,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
               <Picker.Item
                 label={SymbolTileCategoryProperties[enumKey].singular}
                 value={enumKey}
+                key={enumKey}
               />
             ))}
           </Picker>
@@ -217,7 +218,7 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
               enabled={false}
             />
             {Object.values(allTabs).map((tab) => (
-              <Picker.Item label={tab.name} value={tab.key} />
+              <Picker.Item key={tab.key} label={tab.name} value={tab.key} />
             ))}
           </Picker>
 
@@ -226,10 +227,10 @@ const AACUserSettingsPage: React.FC<AACUserSettingsPageProps> = ({}) => {
             style={styles.addCustomBtn}
           >
             <Ionicons name="add" size={22} color="white" />
-            <Text style={styles.addCustomBtnText}> Add custom button</Text>
+            <Text style={styles.addCustomBtnText}>Add custom button</Text>
           </TouchableOpacity>
 
-          {newButtonStatus && (
+          {newButtonStatus?.length > 0 && (
             <Text style={newButtonError ? styles.error : styles.success}>
               {newButtonStatus}
             </Text>
