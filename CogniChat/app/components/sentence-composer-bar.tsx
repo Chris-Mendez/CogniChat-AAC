@@ -1,11 +1,14 @@
-import React, { JSX } from "react";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import React, { JSX, useState } from "react";
+import { Pressable, StyleSheet, View, Text } from "react-native";
 import { SymbolTileData } from "../types/symbol-tile-data";
 import SymbolTile from "./symbol-tile";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as Speech from "expo-speech";
 import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
 import { Instanced } from "../types/instanced";
+import CenterModal from "./center-modal";
+import SentenceComposerEditor from "./sentence-composer-editor";
+import RightmostScrollView from "./rightmost-scroll-view";
 
 /**
  * @interface SentenceComposerBarProps
@@ -28,7 +31,7 @@ interface SentenceComposerBarProps {
  * clear all button, speak button (using text-to-speech), and a manual
  * phrase input box when the composer bar is pressed on.
  *
- * @param {SymbolTileGridProps} props {@link SentenceComposerBarProps}
+ * @param {SentenceComposerBarProps} props {@link SentenceComposerBarProps}
  * @returns {JSX.Element} A React Native component.
  */
 export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
@@ -36,6 +39,8 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
   updateSentence,
 }: SentenceComposerBarProps): JSX.Element => {
   const { ttsVoice } = useAACPreferencesStore();
+  const [manualEditModalVisible, setManualEditModalVisible] =
+    useState<boolean>(false);
 
   const handlePopSymbol = (index: number) => {
     updateSentence((p) => p.filter((_, i) => i !== index));
@@ -54,26 +59,47 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
     Speech.speak(formedSentence, { voice: ttsVoice });
   };
 
+  const handleManualEdit = () => {
+    setManualEditModalVisible(true);
+  };
+
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.listContainer} horizontal={true}>
-        {sentence.map((item, index) => (
-          <Pressable
-            key={item.instanceKey}
-            style={[styles.symbol]}
-            onPress={() => handlePopSymbol(index)}
-          >
-            <SymbolTile symbolTileData={item.value} hideCategoryColor={true} />
-          </Pressable>
-        ))}
-      </ScrollView>
-      <Pressable style={styles.popWordButton} onPress={handleSpeak}>
-        <Ionicons name="volume-high" size={40} color="black" />
-      </Pressable>
-      <Pressable style={styles.popWordButton} onPress={handleClearAllSymbols}>
-        <Ionicons name="trash" size={40} color="black" />
-      </Pressable>
-    </View>
+    <>
+      <CenterModal
+        visible={manualEditModalVisible}
+        onClose={() => setManualEditModalVisible(false)}
+      >
+        <SentenceComposerEditor
+          sentence={sentence}
+          updateSentence={updateSentence}
+          onClose={() => setManualEditModalVisible(false)}
+        />
+      </CenterModal>
+      <View style={styles.container}>
+        <Pressable onPress={handleManualEdit} style={{ flex: 1 }}>
+          <RightmostScrollView style={styles.listContainer}>
+            {sentence.map((item, index) => (
+              <Pressable
+                key={item.instanceKey}
+                style={[styles.symbol]}
+                onPress={() => handlePopSymbol(index)}
+              >
+                <SymbolTile
+                  symbolTileData={item.value}
+                  hideCategoryColor={true}
+                />
+              </Pressable>
+            ))}
+          </RightmostScrollView>
+        </Pressable>
+        <Pressable style={styles.popWordButton} onPress={handleSpeak}>
+          <Ionicons name="volume-high" size={40} color="black" />
+        </Pressable>
+        <Pressable style={styles.popWordButton} onPress={handleClearAllSymbols}>
+          <Ionicons name="trash" size={40} color="black" />
+        </Pressable>
+      </View>
+    </>
   );
 };
 
