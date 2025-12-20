@@ -13,6 +13,8 @@ import { SymbolTileData } from "../types/symbol-tile-data";
 import SymbolTile from "./symbol-tile";
 import { Ionicons } from "@expo/vector-icons";
 import createUniqueKey from "../utils/create-unique-key";
+import CenterModal from "./center-modal";
+import TextPrompt from "./text-prompt";
 
 export const MainPageButtonGridRow = () => {
   const {
@@ -23,9 +25,11 @@ export const MainPageButtonGridRow = () => {
     allTabs,
     setActiveTabId,
     setActiveTabOrder,
+    addTab,
   } = useAACSymbolTilesStore();
   const [editMode, setEditMode] = useState<boolean>(false);
   const [numColumns, setNumColumns] = useState<number>(1);
+  const [createTabVisible, setCreateTabVisible] = useState<boolean>(false);
 
   const doRenderItem = (tile: SymbolTileData): JSX.Element => {
     return <SymbolTile symbolTileData={tile} />;
@@ -69,8 +73,31 @@ export const MainPageButtonGridRow = () => {
     });
   };
 
+  const handleCreateTab = (name: string) => {
+    addTab({
+      name: name,
+      key: createUniqueKey(),
+    });
+    setCreateTabVisible(false);
+  };
+
   return (
     <>
+      <CenterModal
+        visible={createTabVisible}
+        onClose={() => {
+          setCreateTabVisible(false);
+        }}
+      >
+        <TextPrompt
+          promptMessage={"Enter the name of the new tab"}
+          placeholderText={"Type here..."}
+          onSubmit={handleCreateTab}
+          onCancel={() => {
+            setCreateTabVisible(false);
+          }}
+        />
+      </CenterModal>
       <View style={styles.tabsAndControlsContainer}>
         <ScrollView
           horizontal
@@ -78,6 +105,17 @@ export const MainPageButtonGridRow = () => {
           contentContainerStyle={styles.tabScroll}
           style={styles.tabsContainer}
         >
+          {editMode && (
+            <TouchableOpacity
+              key={"create_new_tab"}
+              style={styles.tab}
+              onPress={() => {
+                setCreateTabVisible(true);
+              }}
+            >
+              <Text style={styles.tabText}>Create Tab</Text>
+            </TouchableOpacity>
+          )}
           {Object.values(allTabs).map((tab) => {
             const isActive = tab.key === activeTabId;
 
@@ -99,16 +137,11 @@ export const MainPageButtonGridRow = () => {
         <View style={styles.staticControlsContainer}>
           <TouchableOpacity style={styles.flip} onPress={doFlipGrid}>
             <Ionicons name="swap-horizontal" size={40} color="black" />
-            <Text> Flip</Text>
+            <Text>Flip</Text>
           </TouchableOpacity>
           <View style={styles.edit}>
-            <Switch
-              value={editMode}
-              onValueChange={(v) => {
-                setEditMode(v);
-              }}
-            />
-            <Text> Edit mode</Text>
+            <Switch value={editMode} onValueChange={setEditMode} />
+            <Text>Edit mode</Text>
           </View>
         </View>
       </View>
