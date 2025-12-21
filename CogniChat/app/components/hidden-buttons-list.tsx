@@ -3,10 +3,9 @@ import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useAACSymbolTilesStore } from "../contexts/aac-symbol-tiles-provider";
 import SymbolTile from "./symbol-tile";
+import { PICKER_NO_SELECTION } from "../constants/picker-no-selection";
 
 interface HiddenButtonsListProps {}
-
-const NO_SELECTION = "no_selection";
 
 const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
   const {
@@ -43,7 +42,7 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
   // handlers for restoring or permanently deleting each hidden button
   const handleRestore = (tileKey: string) => {
     const tabKey = pickerSelections[tileKey];
-    if (!tabKey || tabKey === NO_SELECTION) return;
+    if (!tabKey || tabKey === PICKER_NO_SELECTION) return;
     addSymbolTileToTab(tabKey, tileKey);
   };
   const handleDelete = (tileKey: string) => {
@@ -53,7 +52,7 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
   return (
     <View>
       {Object.entries(hiddenButtons).map(([_, key]) => {
-        const selectedPickerKey = pickerSelections[key] ?? NO_SELECTION;
+        const selectedPickerKey = pickerSelections[key] ?? PICKER_NO_SELECTION;
         return (
           <View style={styles.entry} key={key}>
             <View style={styles.preview}>
@@ -72,7 +71,7 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
             >
               <Picker.Item
                 label="Select a tab..."
-                value={NO_SELECTION}
+                value={PICKER_NO_SELECTION}
                 enabled={false}
               />
               {Object.values(allTabs).map((tab) => (
