@@ -92,7 +92,7 @@ export const ControlAddCustomButton: React.FC<
           <Picker.Item key={tab.key} label={tab.name} value={tab.key} />
         ))}
       </Picker>
-      <TouchableOpacity onPress={submitNewButtonForm}>
+      <TouchableOpacity onPress={submitNewButtonForm} style={styles.create}>
         <Ionicons name="add" size={22} color="white" />
         <Text>Add custom button</Text>
       </TouchableOpacity>
@@ -108,6 +108,13 @@ export const ControlAddCustomButton: React.FC<
 const styles = StyleSheet.create({
   error: { color: "red" },
   success: { color: "green" },
+  create: {
+    flexDirection: "row",
+    backgroundColor: "#7ab0f7ff",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+  },
 });
 
 export default ControlAddCustomButton;

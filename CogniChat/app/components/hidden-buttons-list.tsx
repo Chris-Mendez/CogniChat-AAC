@@ -79,7 +79,7 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
               ))}
             </Picker>
             <TouchableOpacity
-              style={styles.restore}
+              style={[styles.button, styles.restore]}
               onPress={() => {
                 handleRestore(key);
               }}
@@ -87,7 +87,7 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
               <Text>Restore</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.delete}
+              style={[styles.button, styles.delete]}
               onPress={() => {
                 handleDelete(key);
               }}
@@ -105,12 +105,14 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
 };
 
 const styles = StyleSheet.create({
-  picker: { width: 300 },
+  picker: {
+    height: 44,
+    minWidth: 160,
+  },
   pickerItem: {
     color: "black",
   },
   entry: {
-    backgroundColor: "yellow",
     flexDirection: "row",
   },
   preview: {
@@ -119,15 +121,15 @@ const styles = StyleSheet.create({
   },
   restore: {
     backgroundColor: "#7ab0f7ff",
-    borderRadius: 15,
-    padding: 10,
-    color: "white",
   },
   delete: {
     backgroundColor: "red",
+  },
+  button: {
     borderRadius: 15,
     padding: 10,
-    color: "white",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

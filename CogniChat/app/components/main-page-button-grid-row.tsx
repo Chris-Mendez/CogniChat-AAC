@@ -166,15 +166,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#AF8EC9",
   },
   tabScroll: {
-    flexDirection: "row",
     alignItems: "center",
+    gap: 10,
   },
   tab: {
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 20,
     backgroundColor: "#e0e0e0",
-    marginRight: 8,
   },
   activeTab: {
     backgroundColor: "#4A90E2",
@@ -192,9 +191,7 @@ const styles = StyleSheet.create({
   },
   staticControlsContainer: {
     backgroundColor: "gray",
-    flex: 1,
     flexDirection: "row",
-    alignContent: "center",
     alignItems: "center",
   },
   tabsContainer: {
