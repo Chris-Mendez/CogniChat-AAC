@@ -100,6 +100,9 @@ const styles = StyleSheet.create({
   },
   image: {
     ...StyleSheet.absoluteFillObject,
+    // fixes for WEB where dragging the image prevented button reordering:
+    userSelect: "none",
+    pointerEvents: "none",
   },
   imageContainer: {
     flex: 1,
