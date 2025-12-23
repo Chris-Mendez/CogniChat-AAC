@@ -6,15 +6,12 @@ import { Pressable, StyleSheet, View } from "react-native";
 export const MainPageHeaderRow = () => {
   return (
     <View style={styles.container}>
-      <Pressable
-        style={styles.homeButton}
-        onPress={() => router.navigate("../menu")}
-      >
+      <Pressable style={styles.homeButton} onPress={() => router.back()}>
         <Ionicons name="home" size={40} color="black" />
       </Pressable>
       <Pressable
         style={styles.settingsButton}
-        onPress={() => router.navigate("./components/settings/settings-page")}
+        onPress={() => router.push("/aac-settings")}
       >
         <Ionicons name="settings" size={40} color="black" />
       </Pressable>
