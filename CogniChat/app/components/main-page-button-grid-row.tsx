@@ -90,7 +90,9 @@ export const MainPageButtonGridRow = () => {
         }}
       >
         <TextPrompt
-          promptMessage={"Enter the name of the new tab"}
+          promptMessage={
+            "Add a new tab to organize your personalized communication words.\nWhat should the new tab be named?"
+          }
           placeholderText={"Type here..."}
           onSubmit={handleCreateTab}
           onCancel={() => {

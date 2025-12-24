@@ -1,6 +1,6 @@
 import React, { JSX, useState } from "react";
 import { StyleSheet, TextInput } from "react-native";
-import BasePrompt from "./base-prompt";
+import ConfirmationPrompt from "./confirmation-prompt";
 
 /**
  * @interface TextPromptProps
@@ -37,7 +37,7 @@ const TextPrompt = ({
   };
 
   return (
-    <BasePrompt
+    <ConfirmationPrompt
       promptMessage={promptMessage}
       onConfirm={handleSubmit}
       onCancel={onCancel}
@@ -48,7 +48,7 @@ const TextPrompt = ({
         placeholder={placeholderText}
         onSubmitEditing={handleSubmit}
       />
-    </BasePrompt>
+    </ConfirmationPrompt>
   );
 };
 
