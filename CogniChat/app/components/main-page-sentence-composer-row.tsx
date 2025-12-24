@@ -7,6 +7,7 @@ import CenterModal from "./center-modal";
 import SentenceComposerEditor from "./sentence-composer-editor";
 import { useAACSymbolTilesStore } from "../contexts/aac-symbol-tiles-provider";
 import SentenceComposerBar from "./sentence-composer-bar";
+import SymbolTile from "./symbol-tile";
 
 /**
  * @interface MainPageSentenceComposerRowProps
@@ -61,7 +62,17 @@ export const MainPageSentenceComposerRow: React.FC<
       </CenterModal>
       <View style={styles.container}>
         <Pressable onPress={handleManualEdit} style={{ flex: 1 }}>
-          <SentenceComposerBar sentence={sentence} onPress={handleManualEdit} />
+          <SentenceComposerBar
+            sentence={sentence}
+            renderSymbol={(item) => {
+              return (
+                <SymbolTile
+                  symbolTileData={item.value}
+                  hideCategoryColor={true}
+                />
+              );
+            }}
+          />
         </Pressable>
         <Pressable style={styles.popWordButton} onPress={handleSpeak}>
           <Ionicons name="volume-high" size={40} color="black" />

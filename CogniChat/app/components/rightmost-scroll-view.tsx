@@ -11,9 +11,9 @@ type RightmostScrollViewProps = ScrollViewProps & {
 };
 
 /**
- * A component for rendering a horizontal ScrollView component but
- * also snaps the ScrollView to the very right if there is enough
- * content within the ScrollView. Useful for text inputs, for example.
+ * A component for rendering a horizontal ScrollView but which
+ * also snaps the ScrollView to the very right if the size of the
+ * content grows. Useful for text inputs, for example.
  *
  * @param {RightmostScrollViewProps} props {@link RightmostScrollViewProps}
  * @returns {JSX.Element} A modified ScrollView component.
@@ -22,16 +22,23 @@ const RightmostScrollView = ({
   children,
   ...props
 }: RightmostScrollViewProps): JSX.Element => {
+  // useRef instead of useState to prevent re-renders
   const scrollRef = useRef<ScrollView | null>(null);
+  const lastWidth = useRef<number>(0);
+
+  const handleContentSizeChange = (contentWidth: number) => {
+    if (contentWidth > lastWidth.current) {
+      scrollRef.current?.scrollToEnd({ animated: true });
+    }
+    lastWidth.current = contentWidth;
+  };
 
   return (
     <ScrollView
       ref={scrollRef}
       horizontal
       showsHorizontalScrollIndicator={false}
-      onContentSizeChange={() => {
-        scrollRef.current?.scrollToEnd({ animated: true });
-      }}
+      onContentSizeChange={handleContentSizeChange}
       {...props}
     >
       {children}

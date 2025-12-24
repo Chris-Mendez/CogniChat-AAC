@@ -5,6 +5,7 @@ import { Instanced } from "../types/instanced";
 import createUniqueKey from "../utils/create-unique-key";
 import { SymbolTileCategoryKey } from "../types/symbol-tile-categories";
 import SentenceComposerBar from "./sentence-composer-bar";
+import SymbolTile from "./symbol-tile";
 
 /**
  * @interface SentenceComposerEditorProps
@@ -96,7 +97,22 @@ export const SentenceComposerEditor: React.FC<SentenceComposerEditorProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.sentenceComposerBar}>
-        <SentenceComposerBar sentence={sentence} onPress={handlePopSymbol} />
+        <SentenceComposerBar
+          sentence={sentence}
+          renderSymbol={(item) => {
+            return (
+              <Pressable
+                style={{ flex: 1 }}
+                onPress={() => handlePopSymbol(item.instanceKey)}
+              >
+                <SymbolTile
+                  symbolTileData={item.value}
+                  hideCategoryColor={true}
+                />
+              </Pressable>
+            );
+          }}
+        />
       </View>
       <Text>Tap on a tile to remove it. Type below to add your own words.</Text>
       <TextInput

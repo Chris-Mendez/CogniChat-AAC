@@ -1,8 +1,8 @@
 import React, { JSX } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { SymbolTileData } from "../types/symbol-tile-data";
-import SymbolTile from "./symbol-tile";
 import { Instanced } from "../types/instanced";
+import RightmostFlatList from "./rightmost-flat-list";
 import RightmostScrollView from "./rightmost-scroll-view";
 
 /**
@@ -10,10 +10,12 @@ import RightmostScrollView from "./rightmost-scroll-view";
  *
  * @property {SymbolTileData[]} sentence - An array of the symbol tiles
  * that make up the currently composed sentence.
+ * @property {function} renderSymbol - Callback for handling what
+ * should be rendered for each symbol.
  */
 interface SentenceComposerBarProps {
   sentence: Instanced<SymbolTileData>[];
-  onPress?: (instanceKey: string) => void;
+  renderSymbol: (symbol: Instanced<SymbolTileData>) => React.ReactNode;
 }
 
 /**
@@ -25,37 +27,43 @@ interface SentenceComposerBarProps {
  */
 export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
   sentence,
-  onPress,
+  renderSymbol,
 }: SentenceComposerBarProps): JSX.Element => {
+  /*
+  // FlatList is completely broken on mobile, and I can't figure
+  // out how to fix it...
+  // So as an alternative, use the (less efficient) map method
+  // below, which effectively works the same anwyways.
   return (
-    <View style={styles.container}>
-      <RightmostScrollView style={styles.listContainer}>
-        {sentence.map((item) => (
-          <Pressable
-            onPress={() => {
-              onPress?.(item.instanceKey);
-            }}
-            style={styles.symbol}
-            key={item.instanceKey}
-          >
-            <SymbolTile symbolTileData={item.value} hideCategoryColor={true} />
-          </Pressable>
-        ))}
-      </RightmostScrollView>
-    </View>
+    <RightmostFlatList
+      style={styles.container}
+      data={sentence}
+      keyExtractor={(item) => item.instanceKey}
+      renderItem={(item) => (
+        <View style={styles.symbol}>{renderSymbol(item.item)}</View>
+      )}
+    />
+  );
+  */
+
+  return (
+    <RightmostScrollView style={styles.container}>
+      {sentence.map((item) => (
+        <View style={styles.symbol} key={item.instanceKey}>
+          {renderSymbol(item)}
+        </View>
+      ))}
+    </RightmostScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "purple",
-    flex: 1,
-    flexDirection: "row",
-    padding: 5,
-  },
-  listContainer: {
     flex: 1,
     height: "100%",
+    backgroundColor: "purple",
+    flexDirection: "row",
+    padding: 5,
   },
   symbol: {
     aspectRatio: 1,

@@ -73,6 +73,7 @@ export const SymbolTile: React.FC<SymbolTileProps> = ({
               },
             ]}
             numberOfLines={doImage ? 1 : 3}
+            selectable={false}
           >
             {textToRender}
           </Text>
