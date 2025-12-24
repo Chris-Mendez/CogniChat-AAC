@@ -1,11 +1,10 @@
 import React, { JSX, useState } from "react";
 import { Pressable, StyleSheet, View, TextInput, Text } from "react-native";
 import { SymbolTileData } from "../types/symbol-tile-data";
-import SymbolTile from "./symbol-tile";
 import { Instanced } from "../types/instanced";
 import createUniqueKey from "../utils/create-unique-key";
 import { SymbolTileCategoryKey } from "../types/symbol-tile-categories";
-import RightmostScrollView from "./rightmost-scroll-view";
+import SentenceComposerBar from "./sentence-composer-bar";
 
 /**
  * @interface SentenceComposerEditorProps
@@ -96,21 +95,8 @@ export const SentenceComposerEditor: React.FC<SentenceComposerEditorProps> = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.listContainer}>
-        <RightmostScrollView>
-          {sentence.map((item) => (
-            <Pressable
-              onPress={() => handlePopSymbol(item.instanceKey)}
-              style={styles.symbol}
-              key={item.instanceKey}
-            >
-              <SymbolTile
-                symbolTileData={item.value}
-                hideCategoryColor={true}
-              />
-            </Pressable>
-          ))}
-        </RightmostScrollView>
+      <View style={styles.sentenceComposerBar}>
+        <SentenceComposerBar sentence={sentence} onPress={handlePopSymbol} />
       </View>
       <Text>Tap on a tile to remove it. Type below to add your own words.</Text>
       <TextInput
@@ -133,9 +119,8 @@ const styles = StyleSheet.create({
   container: {
     maxWidth: 400,
   },
-  listContainer: {
-    borderRadius: 10,
-    height: 100,
+  sentenceComposerBar: {
+    height: 90,
   },
   input: {
     height: 40,
@@ -151,10 +136,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#6c93efff",
     padding: 8,
     color: "white",
-  },
-  symbol: {
-    aspectRatio: 1,
-    alignSelf: "stretch",
   },
 });
 
