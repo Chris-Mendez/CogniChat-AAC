@@ -42,10 +42,6 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
   const [manualEditModalVisible, setManualEditModalVisible] =
     useState<boolean>(false);
 
-  const handlePopSymbol = (index: number) => {
-    updateSentence((p) => p.filter((_, i) => i !== index));
-  };
-
   const handleClearAllSymbols = () => {
     updateSentence((_) => []);
   };
@@ -78,17 +74,13 @@ export const SentenceComposerBar: React.FC<SentenceComposerBarProps> = ({
       <View style={styles.container}>
         <Pressable onPress={handleManualEdit} style={{ flex: 1 }}>
           <RightmostScrollView style={styles.listContainer}>
-            {sentence.map((item, index) => (
-              <Pressable
-                key={item.instanceKey}
-                style={[styles.symbol]}
-                onPress={() => handlePopSymbol(index)}
-              >
+            {sentence.map((item) => (
+              <View style={styles.symbol} key={item.instanceKey}>
                 <SymbolTile
                   symbolTileData={item.value}
                   hideCategoryColor={true}
                 />
-              </Pressable>
+              </View>
             ))}
           </RightmostScrollView>
         </Pressable>
@@ -114,9 +106,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 10,
     height: "100%",
-  },
-  listContent: {
-    alignItems: "center",
   },
   symbol: {
     aspectRatio: 1,

@@ -59,6 +59,12 @@ export const SentenceComposerEditor: React.FC<SentenceComposerEditorProps> = ({
     setText("");
   };
 
+  const handlePopSymbol = (instanceKey: string) => {
+    updateSentence((p) =>
+      p.filter((tile, _) => tile.instanceKey !== instanceKey)
+    );
+  };
+
   const handleUndo = () => {
     updateSentence((prev) => {
       if (prev.length === 0) return prev;
@@ -85,22 +91,28 @@ export const SentenceComposerEditor: React.FC<SentenceComposerEditorProps> = ({
     if (text.trim().length > 0) {
       handleCompleteWord(text.trim());
     }
+    onClose();
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.listContainer}>
         <RightmostScrollView>
-          {sentence.map((item, _) => (
-            <View style={styles.symbol} key={item.instanceKey}>
+          {sentence.map((item) => (
+            <Pressable
+              onPress={() => handlePopSymbol(item.instanceKey)}
+              style={styles.symbol}
+              key={item.instanceKey}
+            >
               <SymbolTile
                 symbolTileData={item.value}
                 hideCategoryColor={true}
               />
-            </View>
+            </Pressable>
           ))}
         </RightmostScrollView>
       </View>
+      <Text>Tap on a tile to remove it. Type below to add your own words.</Text>
       <TextInput
         style={styles.input}
         onChangeText={handleChangeText}
@@ -119,8 +131,7 @@ export const SentenceComposerEditor: React.FC<SentenceComposerEditorProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    padding: 5,
-    width: 400,
+    maxWidth: 400,
   },
   listContainer: {
     borderRadius: 10,
