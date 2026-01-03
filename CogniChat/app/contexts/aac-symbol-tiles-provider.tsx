@@ -1,13 +1,6 @@
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import React, { createContext, useContext, useMemo, useState } from "react";
 import { SymbolTileData } from "../types/symbol-tile-data";
 import { SymbolTileTabData } from "../types/symbol-tile-tab-data";
-import { createMockAACSymbolTiles } from "./__mocks__/aac-symbol-tiles-mock";
 import { createDefaultAACSymbolTiles } from "../constants/default-aac-symbol-tiles";
 import { Instanced } from "../types/instanced";
 

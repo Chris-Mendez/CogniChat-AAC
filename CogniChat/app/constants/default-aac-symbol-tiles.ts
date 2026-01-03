@@ -16,109 +16,94 @@ export function createDefaultAACSymbolTiles(): {
   builder.createTab("Test tab 3");
   builder.createSymbolTile(["Test tab 1", "Test tab 2"], {
     key: createUniqueKey(),
-    labelling: {
-      text: "Yes",
-      imgSrc: require("../assets/yes.svg"),
+    textLabel: "Yes",
+    imageLabel: {
+      kind: "bundled",
+      source: require("../assets/yes.svg"),
     },
     vocalization: "Yes",
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile(["Test tab 1", "Test tab 2"], {
     key: createUniqueKey(),
-    labelling: {
-      text: "No",
-      imgSrc: require("../assets/no.svg"),
+    textLabel: "No",
+    imageLabel: {
+      kind: "bundled",
+      source: require("../assets/no.svg"),
     },
     vocalization: "No",
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile(["Test tab 1", "Test tab 2"], {
     key: createUniqueKey(),
-    labelling: {
-      text: "Want",
-      imgSrc: require("../assets/want.jpg"),
+    textLabel: "Want",
+    imageLabel: {
+      kind: "bundled",
+      source: require("../assets/want.jpg"),
     },
     vocalization: "Want",
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile(["Test tab 3"], {
     key: createUniqueKey(),
-    labelling: {
-      text: "1",
-      imgSrc: undefined,
-    },
+    textLabel: "1",
+    imageLabel: undefined,
     vocalization: "One",
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile(["Test tab 3"], {
     key: createUniqueKey(),
-    labelling: {
-      text: "2",
-      imgSrc: undefined,
-    },
+    textLabel: "2",
+    imageLabel: undefined,
     vocalization: "Two",
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile(["Test tab 3"], {
     key: createUniqueKey(),
-    labelling: {
-      text: "3",
-      imgSrc: undefined,
-    },
+    textLabel: "3",
+    imageLabel: undefined,
     vocalization: "Three",
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile(["Test tab 3"], {
     key: createUniqueKey(),
-    labelling: {
-      text: "4",
-      imgSrc: undefined,
-    },
+    textLabel: "4",
+    imageLabel: undefined,
     vocalization: "Four",
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile(["Test tab 3"], {
     key: createUniqueKey(),
-    labelling: {
-      text: "5",
-      imgSrc: undefined,
-    },
+    textLabel: "5",
+    imageLabel: undefined,
     vocalization: "Five",
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile(["Test tab 3"], {
     key: createUniqueKey(),
-    labelling: {
-      text: "6",
-      imgSrc: undefined,
-    },
+    textLabel: "6",
+    imageLabel: undefined,
     vocalization: "Six",
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile(["Test tab 3"], {
     key: createUniqueKey(),
-    labelling: {
-      text: "7",
-      imgSrc: undefined,
-    },
+    textLabel: "7",
+    imageLabel: undefined,
     vocalization: "Seven",
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile(["Test tab 3"], {
     key: createUniqueKey(),
-    labelling: {
-      text: "8",
-      imgSrc: undefined,
-    },
+    textLabel: "8",
+    imageLabel: undefined,
     vocalization: "Eight",
     category: SymbolTileCategoryKey.other,
   });
   builder.createSymbolTile(["Test tab 3"], {
     key: createUniqueKey(),
-    labelling: {
-      text: "9",
-      imgSrc: undefined,
-    },
+    textLabel: "9",
+    imageLabel: undefined,
     vocalization: "Nine",
     category: SymbolTileCategoryKey.other,
   });

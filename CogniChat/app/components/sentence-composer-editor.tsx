@@ -42,10 +42,8 @@ export const SentenceComposerEditor: React.FC<SentenceComposerEditorProps> = ({
   const handleCompleteWord = (word: string) => {
     const tile: SymbolTileData = {
       vocalization: word,
-      labelling: {
-        text: word,
-        imgSrc: undefined,
-      },
+      textLabel: word,
+      imageLabel: undefined,
       category: SymbolTileCategoryKey.other,
       key: createUniqueKey(),
     };
@@ -69,7 +67,7 @@ export const SentenceComposerEditor: React.FC<SentenceComposerEditorProps> = ({
     updateSentence((prev) => {
       if (prev.length === 0) return prev;
       const lastTile = prev[prev.length - 1];
-      setText(lastTile.value.vocalization + " ");
+      setText(lastTile.value.vocalization);
       return prev.slice(0, -1);
     });
   };
@@ -81,8 +79,9 @@ export const SentenceComposerEditor: React.FC<SentenceComposerEditorProps> = ({
     }
   };
 
-  const handleKeyPress = ({ nativeEvent }: any) => {
-    if (nativeEvent.key === "Backspace" && text.length === 0) {
+  const handleKeyPress = (e: any) => {
+    if (e.nativeEvent.key === "Backspace" && text.length === 0) {
+      e.preventDefault?.(); // fix for web race condition
       handleUndo();
     }
   };
@@ -123,8 +122,9 @@ export const SentenceComposerEditor: React.FC<SentenceComposerEditorProps> = ({
         value={text}
         placeholder="Type here..."
         keyboardType="default"
+        autoFocus={true}
       />
-      <Pressable onPress={onClose} style={styles.close}>
+      <Pressable onPress={handleSubmit} style={styles.close}>
         <Text>Done</Text>
       </Pressable>
     </View>

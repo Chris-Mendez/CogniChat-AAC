@@ -2,8 +2,8 @@ import React, { JSX } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SymbolTileData } from "../types/symbol-tile-data";
 import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
-import { Image } from "expo-image";
 import { getContrastYIQ } from "../utils/color-helper";
+import SymbolTileImage from "./symbol-tile-image";
 
 /**
  * @interface SymbolTileProps
@@ -33,10 +33,13 @@ export const SymbolTile: React.FC<SymbolTileProps> = ({
     showButtonTextLabels,
   } = useAACPreferencesStore();
 
-  const doImage = showButtonImageLabels && symbolTileData.labelling.imgSrc;
+  const doImage: boolean =
+    showButtonImageLabels && symbolTileData.imageLabel !== undefined;
 
-  let textToRender: string | undefined =
-    symbolTileData.labelling.text ?? symbolTileData.vocalization;
+  let textToRender: string | undefined;
+  if (symbolTileData.textLabel && symbolTileData.textLabel.length > 0)
+    textToRender = symbolTileData.textLabel;
+  else textToRender = symbolTileData.vocalization;
   if (doImage && !showButtonTextLabels) textToRender = undefined;
 
   const bgColor =
@@ -54,8 +57,8 @@ export const SymbolTile: React.FC<SymbolTileProps> = ({
     >
       {doImage && (
         <View style={styles.imageContainer}>
-          <Image
-            source={symbolTileData.labelling.imgSrc}
+          <SymbolTileImage
+            image={symbolTileData.imageLabel!}
             style={styles.image}
             contentFit="cover"
           />

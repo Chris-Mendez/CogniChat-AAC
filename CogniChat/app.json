@@ -12,7 +12,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.reslem.cognichat",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSPhotoLibraryUsageDescription": "CogniChat needs access to your photos for AAC button customization."
       }
     },
     "android": {

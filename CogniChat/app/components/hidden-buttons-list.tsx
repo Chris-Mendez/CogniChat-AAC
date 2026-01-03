@@ -4,6 +4,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useAACSymbolTilesStore } from "../contexts/aac-symbol-tiles-provider";
 import SymbolTile from "./symbol-tile";
 import { PICKER_NO_SELECTION } from "../constants/picker-no-selection";
+import { useAACUserImagesStore } from "../contexts/aac-user-images-provider";
 
 interface HiddenButtonsListProps {}
 
@@ -15,6 +16,7 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
     addSymbolTileToTab,
     deleteSymbolTile,
   } = useAACSymbolTilesStore();
+  const { unlink } = useAACUserImagesStore();
 
   // save the states of the tab selections individually for each hidden button
   const [pickerSelections, setPickerSelections] = useState<
@@ -46,6 +48,10 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
     addSymbolTileToTab(tabKey, tileKey);
   };
   const handleDelete = (tileKey: string) => {
+    const symbolTile = allSymbolTiles[tileKey];
+    if (symbolTile.imageLabel && symbolTile.imageLabel.kind === "stored") {
+      unlink(symbolTile.imageLabel.hash);
+    }
     deleteSymbolTile(tileKey);
   };
 
