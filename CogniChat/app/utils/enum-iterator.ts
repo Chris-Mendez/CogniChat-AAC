@@ -1,6 +1,8 @@
-// A helper function for iterating over the values of a
-// TypeScript enum. Compatible with both ExampleEnum1 { a, b, c }
-// and ExampleEnum2 { a="a", b="b", c="c" }
+/**
+ * Helper function for iterating over the values of a TypeScript enum.
+ * @param e The enum.
+ * @returns An array of the keys of the enum.
+ */
 export function enumValuesOf<E extends Record<string, string | number>>(
   e: E
 ): E[keyof E][] {

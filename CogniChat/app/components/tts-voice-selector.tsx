@@ -4,8 +4,7 @@ import * as Speech from "expo-speech";
 import { StyleSheet } from "react-native";
 import { useAACPreferencesStore } from "../contexts/aac-preferences-provider";
 import { resolveValidTTSVoice } from "../utils/resolve-valid-tts-voice";
-
-const PICKER_NONE = "none";
+import { PICKER_NO_SELECTION } from "../constants/picker-no-selection";
 
 interface TTSVoiceSelectorProps {}
 
@@ -34,14 +33,14 @@ export const TTSVoiceSelector: React.FC<
 
   return (
     <Picker
-      selectedValue={ttsVoice ?? PICKER_NONE}
+      selectedValue={ttsVoice ?? PICKER_NO_SELECTION}
       onValueChange={setTTSVoice}
       style={styles.picker}
       itemStyle={styles.pickerItem}
     >
       <Picker.Item
         label="Select a voice..."
-        value={PICKER_NONE}
+        value={PICKER_NO_SELECTION}
         enabled={false}
       />
       {availableTTSVoices.map((voice) => (

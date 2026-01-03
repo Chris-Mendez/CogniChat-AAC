@@ -14,7 +14,7 @@ export interface SymbolTileData extends HasKey {
    * uses an image label.
    * @example "Hello"
    */
-  textLabel: string | undefined;
+  textLabel?: string;
 
   /**
    * The image label of this symbol tile, which can
@@ -30,7 +30,7 @@ export interface SymbolTileData extends HasKey {
    * Use the "hash" property and the AAC user image
    * context to access the image.
    */
-  imageLabel: ImageRef | undefined;
+  imageLabel?: ImageRef;
 
   /**
    * The actual text used for the text-to-speech feature.

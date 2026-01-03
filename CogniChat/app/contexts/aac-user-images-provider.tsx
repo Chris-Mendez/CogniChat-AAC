@@ -12,8 +12,8 @@ type AACUserImagesContextType = {
   /**
    * Getter and setter for the images.
    */
-  images: ImageRegistry;
-  setImages: React.Dispatch<React.SetStateAction<ImageRegistry>>;
+  imageRegistry: ImageRegistry;
+  updateImageRegistry: React.Dispatch<React.SetStateAction<ImageRegistry>>;
 
   /**
    * Adds an image to the user image store (or just increments
@@ -22,7 +22,7 @@ type AACUserImagesContextType = {
    * @returns The hash of the image, used for retrieving the
    * image later for rendering.
    */
-  link: (tmpUri: string) => Promise<string>;
+  linkImage: (tmpUri: string) => Promise<string>;
 
   /**
    * Removes an image from the user image store (if
@@ -31,7 +31,7 @@ type AACUserImagesContextType = {
    * @param hash The hash of the image to remove.
    * @returns Callback when the operation is completed.
    */
-  unlink: (hash: string) => Promise<void>;
+  unlinkImage: (hash: string) => Promise<void>;
 };
 
 /**
@@ -45,7 +45,7 @@ const AACUserImagesContext = createContext<
 export const AACUserImagesProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [registry, setRegistry] = useState<ImageRegistry>({});
+  const [imageRegistry, updateImageRegistry] = useState<ImageRegistry>({});
 
   useEffect(() => {
     async function prepareDir() {
@@ -66,22 +66,20 @@ export const AACUserImagesProvider: React.FC<{
     prepareDir();
   }, []);
 
-  const link = async (tmpUri: string): Promise<string> => {
-    let hash: string;
-
+  const linkImage = async (tmpUri: string): Promise<string> => {
     // Compute hash of the image. This is used to prevent
     // duplicates and to uniquely identfy the image.
     const tmpFile = new File(tmpUri);
     const tmpFileContent = await tmpFile.base64();
-    hash = await Crypto.digestStringAsync(
+    const hash = await Crypto.digestStringAsync(
       Crypto.CryptoDigestAlgorithm.SHA256,
       tmpFileContent
     );
 
     // Does the image already exist? If so, just increment
     // the local reference counter.
-    if (registry[hash]) {
-      setRegistry((prev) => ({
+    if (imageRegistry[hash]) {
+      updateImageRegistry((prev) => ({
         ...prev,
         [hash]: { ...prev[hash], refCount: prev[hash].refCount + 1 },
       }));
@@ -98,21 +96,21 @@ export const AACUserImagesProvider: React.FC<{
       localUri: destFile.uri,
       refCount: 1,
     };
-    setRegistry((prev) => ({
+    updateImageRegistry((prev) => ({
       ...prev,
       [hash]: newEntry,
     }));
     return hash;
   };
 
-  const unlink = async (hash: string): Promise<void> => {
-    const record = registry[hash];
+  const unlinkImage = async (hash: string): Promise<void> => {
+    const record = imageRegistry[hash];
     if (!record) return;
 
     // Is the reference counter of the image
     // more than 1? If so, just decrement the counter.
     if (record.refCount > 1) {
-      setRegistry((prev) => ({
+      updateImageRegistry((prev) => ({
         ...prev,
         [hash]: { ...prev[hash], refCount: prev[hash].refCount - 1 },
       }));
@@ -122,7 +120,7 @@ export const AACUserImagesProvider: React.FC<{
     // Otherwise, delete the image permanently.
     const fileToDel = new File(record.localUri);
     fileToDel.delete();
-    setRegistry((prev) => {
+    updateImageRegistry((prev) => {
       const { [hash]: _, ...rest } = prev;
       return rest;
     });
@@ -130,7 +128,12 @@ export const AACUserImagesProvider: React.FC<{
 
   return (
     <AACUserImagesContext.Provider
-      value={{ images: registry, setImages: setRegistry, link, unlink }}
+      value={{
+        imageRegistry,
+        updateImageRegistry,
+        linkImage,
+        unlinkImage,
+      }}
     >
       {children}
     </AACUserImagesContext.Provider>

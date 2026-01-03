@@ -16,7 +16,7 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
     addSymbolTileToTab,
     deleteSymbolTile,
   } = useAACSymbolTilesStore();
-  const { unlink } = useAACUserImagesStore();
+  const { unlinkImage } = useAACUserImagesStore();
 
   // save the states of the tab selections individually for each hidden button
   const [pickerSelections, setPickerSelections] = useState<
@@ -50,7 +50,7 @@ const HiddenButtonsList: React.FC<HiddenButtonsListProps> = ({}) => {
   const handleDelete = (tileKey: string) => {
     const symbolTile = allSymbolTiles[tileKey];
     if (symbolTile.imageLabel && symbolTile.imageLabel.kind === "stored") {
-      unlink(symbolTile.imageLabel.hash);
+      unlinkImage(symbolTile.imageLabel.hash);
     }
     deleteSymbolTile(tileKey);
   };

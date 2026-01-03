@@ -1,9 +1,10 @@
-// A helper function for determining what color text should be
-// given a background color such that the text remains as
-// visible as possible.
-// This function is a little unreliable. You must be careful
-// to only pass in hex colors of full length. (6 or 7 characters
-// if counting the hash symbol)
+/**
+ * A helper function for determining the most optimal foreground
+ * color given a background color such that the foreground color
+ * remains visible, and most importantly for text, readable.
+ * @param hexcolor A hex color (with or without the #)
+ * @returns An optimal hex color
+ */
 export const getContrastYIQ = (hexcolor: string) => {
   hexcolor = hexcolor.replace("#", "");
   const r = parseInt(hexcolor.substr(0, 2), 16);

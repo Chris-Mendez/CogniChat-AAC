@@ -30,7 +30,7 @@ export const TileCustomizer: React.FC<TileCustomizerProps> = ({
 }: TileCustomizerProps): JSX.Element => {
   const { allTabs, addSymbolTileToTab, addSymbolTile } =
     useAACSymbolTilesStore();
-  const { link } = useAACUserImagesStore();
+  const { linkImage } = useAACUserImagesStore();
 
   const [tileTextLabel, setTileTextLabel] = useState<string>("");
   const [tileCategory, setTileCategory] = useState<SymbolTileCategoryKey>(
@@ -61,7 +61,7 @@ export const TileCustomizer: React.FC<TileCustomizerProps> = ({
     if (tileImgUri) {
       let hash;
       try {
-        hash = await link(tileImgUri);
+        hash = await linkImage(tileImgUri);
       } catch (e) {
         setIsError(true);
         setStatus("Internal Error");

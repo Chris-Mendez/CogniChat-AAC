@@ -20,13 +20,16 @@ export const SymbolTileImage: React.FC<SymbolTileImageProps> = ({
   image,
   ...imageProps
 }: SymbolTileImageProps): JSX.Element => {
-  const { images } = useAACUserImagesStore();
+  const { imageRegistry } = useAACUserImagesStore();
   switch (image.kind) {
     case "bundled":
       return <Image source={image.source} {...imageProps} />;
     case "stored":
       return (
-        <Image source={{ uri: images[image.hash].localUri }} {...imageProps} />
+        <Image
+          source={{ uri: imageRegistry[image.hash].localUri }}
+          {...imageProps}
+        />
       );
   }
 };
