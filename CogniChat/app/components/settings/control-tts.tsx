@@ -55,11 +55,6 @@ export const ControlTTS: React.FC<
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginVertical: 8,
-    borderBottomColor: "#737373",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
   picker: { width: 300 },
   pickerItem: {
     color: "black",

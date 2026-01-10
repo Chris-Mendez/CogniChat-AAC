@@ -1,6 +1,5 @@
 import React, { JSX } from "react";
 import { StyleSheet, Switch } from "react-native";
-import SettingsRow from "./settings-row";
 import { useAACPreferencesStore } from "@/app/contexts/aac-preferences-provider";
 import { AVAILABLE_CATEGORY_COLORS } from "@/app/constants/default-aac-preferences";
 import CategoryColorSelector from "../category-color-selector";
@@ -19,15 +18,10 @@ export const ControlColorCoding: React.FC<
 
   return (
     <>
-      <SettingsRow
-        title="Color Coding"
-        help="Should buttons be color coded by category?"
-      >
-        <Switch
-          value={showButtonCategoryColors}
-          onValueChange={setShowButtonCategoryColors}
-        />
-      </SettingsRow>
+      <Switch
+        value={showButtonCategoryColors}
+        onValueChange={setShowButtonCategoryColors}
+      />
       {showButtonCategoryColors && (
         <CategoryColorSelector
           selectedColors={buttonCategoryColors}
@@ -38,7 +32,5 @@ export const ControlColorCoding: React.FC<
     </>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default ControlColorCoding;

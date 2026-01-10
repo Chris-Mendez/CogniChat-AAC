@@ -108,7 +108,7 @@ export const TileCustomizer: React.FC<TileCustomizerProps> = ({
       <TextInput
         value={tileTextLabel}
         onChangeText={setTileTextLabel}
-        placeholder="Enter word or phrase..."
+        placeholder="Enter word or phrase for labelling the button..."
       />
       <Picker selectedValue={tileCategory} onValueChange={setTileCategory}>
         {enumValuesOf(SymbolTileCategoryKey).map((enumKey) => (
@@ -148,7 +148,7 @@ export const TileCustomizer: React.FC<TileCustomizerProps> = ({
       <TextInput
         value={tileVocalization}
         onChangeText={setTileVocalization}
-        placeholder="Enter word or phrase..."
+        placeholder="Enter word or phrase for vocalization..."
       />
 
       <TouchableOpacity onPress={onCreateTile} style={styles.create}>

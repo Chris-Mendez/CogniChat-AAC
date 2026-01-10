@@ -47,6 +47,4 @@ export const ControlFontSize: React.FC<
   );
 };
 
-const styles = StyleSheet.create({});
-
 export default ControlFontSize;
